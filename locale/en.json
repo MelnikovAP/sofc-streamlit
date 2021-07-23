@@ -1,0 +1,18 @@
+{
+    "title": "TOTE",
+    "intro": "In the case of power supplies, you always want to achieve predictability in its behavior in the circuit.\nThe most desirable option when its characteristics under load change linearly.\nSystems based on such sources can be safely scaled.\n\nBut reality is different.\nThe dependences of the I - V characteristics of fuel cells, the slopes deviate greatly from the linear law in the region of low currents (since activation losses) and in the region of high currents (concentration losses).",
+    "temperature":"Temperature",
+    "sigma": "Electrolyte conductivity",
+    "ethick": "Electrolyte thickness",
+    "temperature_units": "K",
+    "sigma_units": "cm/m2",
+    "ethick_units":"nm",
+    "calculate_btn": "Calculate",
+    "calc_log": "Calculation log",
+    "i_axis": "I, mA/cm2",
+    "u_axis": "U, V",
+    "p_axis": "P, mW/cm2",
+    "eta_axis": "η a, V",
+    "eta_ohm_axis": "η Ohm, V",
+    "language": "Language"
+}
