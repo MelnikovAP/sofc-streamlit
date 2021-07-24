@@ -52,8 +52,10 @@ if tab_selected == 'Introduction':
         st.image('./scheme.gif')
     with col2:
         '''
-        ![](hydrogen.png "hydr") hydrogen  
-        ![](/Images/oxygen.png) oxygen
+        ![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/oxygen.png) hydrogen  
+        ![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/hydrogen.png) oxygen
+        ![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/water.png)
+        ![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/electron.png)
         '''
 
 
