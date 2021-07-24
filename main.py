@@ -59,8 +59,6 @@ if tab_selected == 'Introduction':
         '''
 
 
-
-
 if 'journal' not in st.session_state:
     st.session_state.journal = []
 
