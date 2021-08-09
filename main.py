@@ -14,10 +14,6 @@ works = ['Introduction',
         'Work #3: The third work',
         'Futher investigation']
 
-def get_ivc(payload):
-    result = requests.post(API_URL, data=payload)
-    return result.json()
-
 # ==============================
 # Sidebar
 # ==============================
@@ -27,7 +23,7 @@ st.sidebar.markdown('***')
 st.sidebar.header('SOFC cloud model')
 tab_selected = st.sidebar.selectbox('Select the work:', works)
 
-if tab_selected != 'Introduction':
+if tab_selected != works[0]:
     st.sidebar.subheader('Model parameters')
     temperature = st.sidebar.slider(
         'Temperature, '+u'\N{DEGREE SIGN}'+'C', 
@@ -39,17 +35,17 @@ if tab_selected != 'Introduction':
     ethick = st.sidebar.slider(
         'Electrolyte thickness, µm', 15, 55, 50, step=1
     )
-    if st.sidebar.button('Calculate'):
-        payload = {
+    
+# ==============================
+
+def get_ivc():
+    payload = {
             'temperature': temperature,
             'sigma': sigma,
             'ethick': ethick * pow(10, -6)
         }
-        result = get_ivc(payload)
-        fig, ax = plt.subplots()
-        ax.plot(result['i'], result['Eload'])
-        st.pyplot(fig)
-# ==============================
+    result = requests.post(API_URL, data=payload)
+    return result.json()
 
 # ==============================
 # Main page
@@ -61,7 +57,6 @@ for item in works:
         with header_container:
             st.title(item)
             '''***'''
-
 
 if tab_selected == works[0]:
     
@@ -90,7 +85,7 @@ if tab_selected == works[0]:
     with scheme_container:
         col1, col2 = st.beta_columns(2)
         with col1:
-            st.image('./scheme.gif')
+            st.image('./Images/scheme.gif')
         with col2:
             '''
             >![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/oxygen.png) pure hydrogen or hydrogen with carbon monoxide   
@@ -347,7 +342,52 @@ if tab_selected == works[0]:
         '''
 
 if tab_selected == works[1]:
+    
     introduction_container = st.beta_container()
+
+
+    with introduction_container:
+        '''
+        ### Introduction & theoretical background  
+        A **current–voltage characteristic** or **I–V curve** 
+        (current–voltage curve) is a relationship, typically represented 
+        as a chart or graph, between the electric current through a circuit, 
+        device, or material, and the corresponding voltage, or potential 
+        difference across it.
+        '''
+        '''
+        A single SOFC cell operated with hydrogen and oxygen provides at 
+        equilibrium a theoretical reversible (Nernst) or open circuit voltage (OCV) 
+        of $1.229 V$ at standard conditions $(T = 273.15 K, p = 1 atm)$. 
+        With the standard electrode potential $E_0$, universal gas constant $R$, 
+        temperature $T$, Faraday’s constant $F$, molar concentration $x$ and pressure $p$, 
+        the OCV is given by the following:
+        '''
+        st.latex(r'''E(p,T)=E^0(p^0,T)-\frac{RT}{2F}\ln \left( \frac{x_{H_2O}}{x_{H_2} \cdot \sqrt{x_{O_2}}} \right) + \frac{RT}{4F}\ln{p}''')
+        '''
+        However, the actual measured OCV will often fall slightly below $E$ by $U_L$ which 
+        represents losses in potential due to residual electronic conduction in the electrolyte 
+        and possibly also cross over of gases via micro cracks and fissures in the electrolyte. 
+        The thermodynamically obtainable cell voltage Vcell at OCV, moreover, depends on the 
+        used fuel and particularly, on operation temperature and pressure. For example, the 
+        OCV of an atmospheric SOFC operating on hydrogen and oxygen is about $0.908 V$ at 
+        $1000 \N{DEGREE SIGN}C$. The actual voltage is lower than the theoretical model due 
+        to reaction, charge and mass transfer losses. For more information, see the 
+        **Introduction** chapter, **Polarizations** section. As shown in figure below, 
+        the performance of SOFC cell can be illustrated using a polarization curve that can 
+        be broken into three sections:  
+        (1) activation losses,  
+        (2) ohmic losses,   
+        (3) mass transport losses.  
+        Therefore, the operating voltage of the cell can be represented as the departure 
+        from ideal voltage caused by these three losses (polarizations).
+        '''
+        st.image('./Images/polariztion_curve.png')
+    #result = get_ivc()
+    if st.sidebar.button('Calculate'):
+        result = get_ivc()
+        st.write(result)
+
 
 if tab_selected == works[2]:
     introduction_container = st.beta_container()
