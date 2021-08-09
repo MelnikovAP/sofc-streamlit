@@ -6,6 +6,7 @@ import requests
 import pandas as pd
 from bokeh.plotting import figure
 
+st.set_page_config(page_title=None, page_icon=None, layout='wide', initial_sidebar_state='auto')
 
 API_URL = 'http://178.154.215.108/tote/ivc'
 works = ['Introduction', 
@@ -85,7 +86,7 @@ if tab_selected == works[0]:
     with scheme_container:
         col1, col2 = st.beta_columns(2)
         with col1:
-            st.image('./Images/scheme.gif')
+            st.image('https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/scheme.gif')
         with col2:
             '''
             >![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/oxygen.png) pure hydrogen or hydrogen with carbon monoxide   
@@ -382,7 +383,9 @@ if tab_selected == works[1]:
         Therefore, the operating voltage of the cell can be represented as the departure 
         from ideal voltage caused by these three losses (polarizations).
         '''
-        st.image('./Images/polariztion_curve.png')
+        st.markdown('<p style="text-align: center;"><img src="https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/polarization_curve.png" width=500/></p>', 
+                    unsafe_allow_html=True)
+
     #result = get_ivc()
     if st.sidebar.button('Calculate'):
         result = get_ivc()
