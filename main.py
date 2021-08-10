@@ -386,10 +386,11 @@ if tab_selected == works[1]:
         st.markdown('<p style="text-align: center;"><img src="https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/polarization_curve.png" width=500/></p>', 
                     unsafe_allow_html=True)
 
-    #result = get_ivc()
     if st.sidebar.button('Calculate'):
         result = get_ivc()
-        st.write(result)
+        p = figure()
+        p.line(result['i'],result['Eload'])
+        st.bokeh_chart(p, use_container_width=True)
 
 
 if tab_selected == works[2]:
