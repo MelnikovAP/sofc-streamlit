@@ -6,7 +6,7 @@ import requests
 import pandas as pd
 from bokeh.plotting import figure
 
-st.set_page_config(page_title=None, page_icon=None, layout='wide', initial_sidebar_state='auto')
+#st.set_page_config(page_title=None, page_icon=None, layout='wide', initial_sidebar_state='auto')
 
 API_URL = 'http://178.154.215.108/tote/ivc'
 works = ['Introduction', 
@@ -84,19 +84,14 @@ if tab_selected == works[0]:
         '''
 
     with scheme_container:
-        col1, col2 = st.beta_columns(2)
-        with col1:
-            st.image('https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/scheme.gif')
-        with col2:
-            '''
-            >![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/oxygen.png) pure hydrogen or hydrogen with carbon monoxide   
-            >  
-            >![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/hydrogen.png) oxygen from air  
-            >  
-            >![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/water.png) water with excess fuel  
-            >  
-            >![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/electron.png) electrons that forms electric current  
-            '''
+        st.markdown('<p style="text-align: center; padding-right:20%; padding-left:20%"><img src="https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/scheme.gif", width=80%/></p>', 
+                    unsafe_allow_html=True)
+        '''
+        >![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/oxygen.png) pure $H_2$ or $H_2+CO$   
+        >![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/hydrogen.png) $O_2$ from air  
+        >![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/water.png) $H_2O$ with excess fuel  
+        >![](https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/electron.png) $e^{-1}$ that forms electric current  
+        '''
     
     with basics_container:
         '''
@@ -383,7 +378,7 @@ if tab_selected == works[1]:
         Therefore, the operating voltage of the cell can be represented as the departure 
         from ideal voltage caused by these three losses (polarizations).
         '''
-        st.markdown('<p style="text-align: center;"><img src="https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/polarization_curve.png" width=500/></p>', 
+        st.markdown('<p style="text-align: center; "><img src="https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/polarization_curve.png" width=500/></p>', 
                     unsafe_allow_html=True)
 
     if st.sidebar.button('Calculate'):
