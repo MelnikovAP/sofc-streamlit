@@ -287,20 +287,6 @@ if tab_selected in works[1:4]:
 #     }
 
 
-def get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
-    payload = {
-        "temperature": temperature,
-        "pressure": pressure * 101325.0,
-        "sigma": sigma,
-        "ethick": ethick * pow(10, -6),
-        "jm": jm,
-        "H2ac": H2ac,
-        "H2Oac":H2Oac,
-        "O2cc":O2cc
-    }
-    result = requests.post(API_URL, data=payload).json()
-    return {k: np.array(result[k]) for k in result.keys()}
-
 
 # print(get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc))
 
@@ -318,6 +304,23 @@ def get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
 #     result = requests.post(API_URL, data=payload)
 #     print(result,payload)
 #     return result
+
+
+def get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
+    payload = {
+        "temperature": temperature,
+        "pressure": pressure * 101325.0,
+        "sigma": sigma,
+        "ethick": ethick * pow(10, -6),
+        "jm": jm,
+        "H2ac": H2ac,
+        "H2Oac":H2Oac,
+        "O2cc":O2cc
+    }
+    result = requests.post(API_URL, data=payload).json()
+    return {k: np.array(result[k]) for k in result.keys()}
+
+
 
 
 
