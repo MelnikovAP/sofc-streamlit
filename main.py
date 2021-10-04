@@ -10,7 +10,7 @@ from bokeh.models import ColumnDataSource, Label, LabelSet, Range1d
 from bokeh.plotting import figure, output_file, show
 import time
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 from PIL import Image
 
