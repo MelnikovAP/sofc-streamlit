@@ -14,58 +14,18 @@ import time
 
 from PIL import Image
 
-# Function to Read and Manupilate Images
 def load_image(img):
     im = Image.open(img)
     image = np.array(im)
     return image
 
-# sys.path.append(os.path.dirname(__file__))
-# def local_css(file_name):
-#     with open(file_name) as f:
-#         st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
-
-# local_css(os.path.join(os.path.dirname(__file__),"style.css"))
 
 
 
 #st.set_page_config(page_title=None, page_icon=None, layout='wide', initial_sidebar_state='auto')
 
 API_URL = 'http://178.154.215.108/tote/ivc'
-# works_eng = ['Introduction',
-#          'Work #1: Understanding IVC',
-#          'Work #2: How fuel cell works: Thermodynamics',
-#          'Work #3: How fuel cell works: Ohmic losses',
-#          'Work #4: How fuel cell works: Mass losses',
-#          'Work #5: From cell to stack',
-#          'Futher investigation']
 
-# works_ru = ['Введение',
-#          'Work #1: Understanding IVC',
-#          'Work #2: How fuel cell works: Thermodynamics',
-#          'Work #3: How fuel cell works: Ohmic losses',
-#          'Work #4: How fuel cell works: Mass losses',
-#          'Work #5: From cell to stack',
-#          'Futher investigation']
-
-# ==============================
-# Sidebar
-# ==============================
-
-# st.sidebar.image('./Images/logo.png')
-# st.sidebar.image(
-#     'https://raw.githubusercontent.com/MelnikovAP/pv-streamlit/main/Images/logo.png')
-
-
-
-
-#img_logo = '''
-#<img alt='logo' src='https://raw.githubusercontent.com/MelnikovAP/pv-streamlit/main/Images/logo.png' width="100%">
-#'''
-
-
-# img_logo = "<img alt='logo' src='"+ os.path.join(os.path.dirname(__file__),"Images","logo.png") + "' width='100%'>"
-# st.sidebar.markdown(img_logo, unsafe_allow_html=True)
 
 
 hide_full_screen = '''
@@ -85,16 +45,12 @@ langs = ["RU","ENG"]
 col1, col2 = st.sidebar.columns([2,1])
 col1.markdown(r"<div style='margin-top:55px;text-align:right;'><hr /></div>", unsafe_allow_html=True)
 lang_selected = col2.selectbox("", langs)
-#col1.markdown('***')
+
 
 
 
 
 works = []
-# if lang_selected == langs[0]:
-#     works = works_eng
-# if lang_selected == langs[1]:
-#     works = works_ru  
 
 td = {
     "ENG" :[
@@ -135,10 +91,10 @@ td = {
         [
             'Введение',
 #            'Understanding IVC',
-            'Работа #1: Термодинамика процессов',
-            'Работа #2: Омические потери',
-            'Работа #3: Концентрационные потери',
-            'Работа #4: Калькулятор стека',
+            'Работа №1: Термодинамика процессов',
+            'Работа №2: Омические потери',
+            'Работа №3: Концентрационные потери',
+            'Работа №4: Калькулятор стека',
 #            'Futher investigation'
             ],
         'Модель ТОТЭ',
@@ -175,7 +131,7 @@ st.sidebar.header(td[lang_selected][1])
 tab_selected = st.sidebar.selectbox(td[lang_selected][2], works)
 
 
-temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc = 1000, 1.1, 2.0, 50, 80, 0.95, 0.05, 0.95
+temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc = 970, 1.1, 2.0, 50, 80, 0.95, 0.05, 0.95
 
 
 
@@ -185,7 +141,7 @@ if tab_selected in works[1:4]:
     temperature = st.sidebar.slider(
         #'T [temperature], '+u'\N{DEGREE SIGN}'+'K',
         'T [' + td[lang_selected][4] + '], K',
-        700, 1500, 1000, step=10, key="sld_temperature",
+        700, 1200, 970, step=10, key="sld_temperature",
     )
 
     pressure = st.sidebar.slider(
@@ -215,7 +171,7 @@ if tab_selected in works[1:4]:
 
 
     if "sld_temperature" not in st.session_state:
-        st.session_state["sld_temperature"] = 1000
+        st.session_state["sld_temperature"] = 970
     if "sld_pressure" not in st.session_state:
         st.session_state["sld_pressure"] = 1.1
     if "sld_sigma" not in st.session_state:
@@ -248,64 +204,6 @@ if tab_selected in works[1:4]:
 
 
 
-# ==============================
-
-# def get_ivc(temperature,sigma,ethick):
-#     payload = {
-#         'temperature': temperature,
-#         'sigma': sigma,
-#         'ethick': ethick * pow(10, -6)
-#     }
-#     result = requests.post(API_URL, data=payload)
-#     return
-
-# sys.path.append(os.path.dirname(__file__) + "/../../rev_5")
-
-
-# from tsofc import TSOFC
-# 
-# def get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
-#     payload = {
-#         "T": temperature,
-#         "P": pressure * 101325.0,
-#         "sigma": sigma,
-#         "ethick": ethick * pow(10, -6),
-#         "jm": jm,
-#         "anode_gas_X": "H2:{0:.2f}, H2O:{1:.2f}".format(H2ac, H2Oac),
-#         "cathode_gas_X": "O2:{0:.2f}, H2O:0.001".format(O2cc)
-#     }
-#     # print(payload)
-#     result = TSOFC(**payload).getPolarizationCurve()
-#     # print(result)
-#     return {
-#         'i': result[:, 0],
-#         'E1': result[:, 1],
-#         'E2': result[:, 2],
-#         'eta_ohmic': result[:, 3],
-#         'Eload': result[:, 4],
-#         'eta_con': result[:, 5],
-#     }
-
-
-
-# print(get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc))
-
-# def get_ivc(temperature, sigma, ethick, m, n, H2ac, H2Oac, O2cc):
-#     payload = {
-#         "T": temperature,
-#         "sigma": sigma,
-#         "ethick": ethick * pow(10, -6),
-#         "m": m * pow(10, -5),
-#         "n": n * pow(10, -2),
-#         "H2ac": H2ac,
-#         "H2Oac": H2Oac,
-#         "O2cc": O2cc,
-#     }
-#     result = requests.post(API_URL, data=payload)
-#     print(result,payload)
-#     return result
-
-
 def get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
     payload = {
         "temperature": temperature,
@@ -325,17 +223,240 @@ def get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
 
 
 
-# ==============================
-# Main page
-# ==============================
-
-
 header_container = st.container()
 for item in works:
     if tab_selected == item:
         with header_container:
             st.title(item)
             '''***'''
+
+
+
+if tab_selected == works[0] and lang_selected == langs[0]:
+    with st.container():
+        st.markdown('''
+        <div style="text-align: justify;">
+        Современная энергетика базируется в основном на электромеханическом способе преобразования энергии, когда тепловая энергия,
+         выделяющаяся при сгорании топлива сначала преобразуется в механическую (обычно вращения), которая в свою очередь 
+         преобразуется в электрическую посредством электрогенератора. Однако, обусловленный развитием цивилизации рост 
+         энергопотребления при исчерпаемости ископаемых энергоносителей, возрастание их стоимости и близкая к предельной 
+         экологическая нагрузка побуждают человечество предпринимать усилия по повышению эффективности преобразования энергии 
+         первичных источников в электрическую и развивать альтернативные способы ее производства. Такой альтернативой могут
+          стать работающие по принципу прямого преобразования энергии топливные элементы (ТЭ), которые позволяют сразу получать из 
+          энергии химических связей топлива электрическую без промежуточного перехода в механическую энергию. Такой процесс 
+          получения электроэнергии в ТЭ значительно более эффективен, чем в традиционно используемых в энергетике электромеханических 
+          преобразователях. В ТЭ нет движущихся частей что значительно увеличивает КПД процесса.
+        <p></p></div>
+        ''', unsafe_allow_html=True)
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Нельзя сказать, что ТЭ уже являются обыденными источниками энергии, но несомненно, технологии ТЭ переживают бурное развитие. 
+        ТЭ уже находят применение в стационарных энергоустановках широкого диапазона мощностей, транспортных силовых установках, 
+        переносных и портативных источниках электропитания.
+        <p></p></div>
+        ''', unsafe_allow_html=True)
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        В ТЭ химическая энергия топлива непосредственно преобразуется в электричество в процессе бесшумной и беспламенной 
+        электрохимической реакции. Электролит различных ТЭ может находиться в твёрдом (полимеры, гибридные материалы, керамика)
+         или жидком (раствор или расплав) агрегатном состоянии и должен обладать высокой ионной проводимостью (O²⁻, H⁺ 
+         и другие ионы, в зависимости от типа ТЭ) в сочетании с пренебрежимо малой электронной проводимостью. Тип электролита 
+         часто служит основой при классификации ТЭ.
+        <p></p></div>
+        ''', unsafe_allow_html=True)
+
+
+        # <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline-block" title="O^{2-} "> <mrow> <msup> <mrow> O </mrow> <mrow> <mn>2</mn> <mo>-</mo> </mrow> </msup> </mrow></math>
+        # <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline-block" title="H^{+} "> <mrow> <msup> <mrow> H </mrow> <mrow> <mo>+</mo> </mrow> </msup> </mrow></math>
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Среди различных типов топливных элементов, для энергоустановок стационарного назначения и целого ряда транспортных приложений 
+        наиболее подходящими представляются высокотемпературные твердооксидные топливные элементы (ТОТЭ).
+        <p></p></div>
+        ''', unsafe_allow_html=True)
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        ТОТЭ являются топливными элементами с самой высокой рабочей температурой. Рабочая температура ТОТЭ в общем случае может 
+        варьироваться от 600°C до 900°C. КПД производства электрической энергии у ТОТЭ – самый высокий из всех топливных элементов и в 
+        принципе может достигать 70%.
+        <p></p></div>
+        ''', unsafe_allow_html=True)
+
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Важнейшими преимуществами ТОТЭ являются широкий спектр потребляемых видов топлива – газообразные и жидкие углеводороды, спирты.
+        <p></p></div>
+        ''', unsafe_allow_html=True)
+
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Основными компонентами любого единичного ТЭ являются катод, анод и разделяющий их электролит.
+        <p></p></div>
+        ''', unsafe_allow_html=True)
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Принципиальная рабочая схема любого ТЭ выглядит довольно просто. К одной стороне ТЭ – аноду – необходимо подавать топливо (синтез-газ, 
+        содержащий водород и окись углерода, для ТОТЭ; чистый водород для наиболее распространённых низкотемпературных видов ТЭ или 
+        другие виды топлив для отдельных типов ТЭ), к другой стороне – катоду – подают воздух (или чистый кислород).
+        <p></p></div>
+        ''', unsafe_allow_html=True)
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        В ТОТЭ анод и катод представляют собой тонкие слои керамических и металлокерамических композитных материалов разного 
+        состава с открытой пористостью. Пористая структура электродов необходима, т.к. именно на развитой поверхности 
+        многочисленных пор происходят основные химические реакции.
+        <p></p></div>
+        ''', unsafe_allow_html=True)    
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Отличительной особенностью ТОТЭ является то, что для работы при высоких температурах используемый электролит представляет 
+        собой тонкую твердую керамическую структуру на основе оксидов металлов, часто в составе содержащих 
+        иттрий и цирконий, которая является проводником ионов кислорода (O²⁻). Именно благодаря особенностям электролита 
+        твёрдооксидный топливный элемент получил своё название.  
+        <p></p></div>
+        ''', unsafe_allow_html=True)    
+
+        # <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline-block" title="O^{2-} "> <mrow> <msup> <mrow> O </mrow> <mrow> <mn>2</mn> <mo>-</mo> </mrow> </msup> </mrow></math>
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        На рисунке 1 показана упрощённая принципиальная схема ТОТЭ.  
+        <p></p></div>
+        ''', unsafe_allow_html=True) 
+
+        col1, col2, col3 = st.columns([1,6,1])
+        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig1.jpg")), width=500, caption="Рисунок 1. − Принципиальная схема ТОТЭ")
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Рассмотрим электрохимические реакции в ТОТЭ на простом примере водородного топлива. На катоде протекает реакция восстановления кислорода:
+         <p></p></div>
+        ''', unsafe_allow_html=True)    
+
+        # <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" title="O_2 + 4\overline{e} = 2O^{2-} "> <mrow> <msub> <mrow> O </mrow> <mrow> <mn>2</mn> </mrow> </msub> <mo>+</mo> <mn>4</mn> <mover accent="true"> <mrow> <mi>e</mi> </mrow> <mo>¯</mo> </mover> <mo>=</mo> <mn>2</mn> <msup> <mrow> O </mrow> <mrow> <mn>2</mn> <mo>-</mo> </mrow> </msup> </mrow>,</math>  
+
+
+        st.latex(r'''\text{O}_2 + 4\overline{e} = 2\text{O}^{2-}''')
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        а на аноде – окисления топлива:
+        <p></p></div>
+        ''', unsafe_allow_html=True)   
+
+        # <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" title="H_2 + O^{2-} = H_2O+ 2\overline{e} "> <mrow> <msub> <mrow> H </mrow> <mrow> <mn>2</mn> </mrow> </msub> <mo>+</mo> <msup> <mrow> O </mrow> <mrow> <mn>2</mn> <mo>-</mo> </mrow> </msup> <mo>=</mo> <msub> <mrow> H </mrow> <mrow> <mn>2</mn> </mrow> </msub> O <mo>+</mo> <mn>2</mn> <mover accent="true"> <mrow> <mi>e</mi> </mrow> <mo>¯</mo> </mover> </mrow></math>  
+      
+
+        st.latex(r'''\text{H}_2 + \text{O}^{2-} = \text{H}_2\text{O}+ 2\overline{e} ''')
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Ионы кислорода движутся через ионопроводящий твёрдый электролит от катода к аноду, где соединяются с водородом. 
+        Продуктом реакции в этом случае является вода. Общая реакция окисления:
+        <p></p></div>
+        ''', unsafe_allow_html=True)   
+
+        # <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" title="2H_2 + O_2 \rightarrow 2H_2O "> <mrow> <mn>2</mn> <msub> <mrow> H </mrow> <mrow> <mn>2</mn> </mrow> </msub> <mo>+</mo> <msub> <mrow> O </mrow> <mrow> <mn>2</mn> </mrow> </msub> <mo>→</mo> <mn>2</mn> <msub> <mrow> H </mrow> <mrow> <mn>2</mn> </mrow> </msub> O </mrow>,</math>
+ 
+
+        st.latex(r'''2\text{H}_2 + \text{O}_2 \rightarrow 2\text{H}_2\text{O}''')
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        такая же, как и при горении водорода. Однако в ТЭ потоки топлива и окислителя не смешиваются, а реакции окисления топлива 
+        и восстановления кислорода, как и в батарейках, пространственно разделены и проходят на разных электродах – соответственно, 
+        процесс «сжигания» протекает, только если элемент попутно выдает ток во внешнюю цепь, вырабатывая электричество.  
+        <p></p></div>
+        ''', unsafe_allow_html=True)   
+
+
+        # <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline-block" title="O^{2-} "> <mrow> <msup> <mrow> O </mrow> <mrow> <mn>2</mn> <mo>-</mo> </mrow> </msup> </mrow></math>
+        st.markdown('''
+        <div style="text-align: justify;">
+        Электролит ТОТЭ обеспечивает транспорт ионов кислорода O²⁻ от катода к аноду и разделяет два газовых объёма: 
+        топливный и окислительный. Высоко избирательные ионопроводящие свойства твёрдого электролита (при минимально 
+        возможной электронной проводимости) достигаются тщательным подбором состава (соотношения основных компонентов 
+        и легирующих добавок) и специальными методами изготовления из него прецизионных тонкоплёночных структур, 
+        обеспечивающих газовую непроницаемость и высокую ионную проводимость. Ионопроводящая эффективность электролита 
+        напрямую зависит от толщины и температуры – падает с ростом первой и растёт с ростом второй. Чем тоньше можно 
+        сделать плёнку электролита, тем лучшую ионную проводимость он обеспечивает. При этом очень высокая температура 
+        процесса в ТОТЭ помимо преимущества в виде высокой эффективности имеет и существенные недостатки, а именно, 
+        необходимость применения в ТОТЭ дорогостоящих материалов, способных выдерживать такие критические условия на 
+        протяжении длительного времени. Уменьшая толщину электролита, можно в некоторой степени снизить температуру 
+        процесса в ТОТЭ, что очень важно с точки зрения подбора более доступных и дешёвых материалов для ТОТЭ.  
+        <p></p></div>
+        ''', unsafe_allow_html=True)   
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Не менее важным является подбор эффективных материалов для катода и анода, т.к. они должны отвечать целому 
+        комплексу специфических, часто противоречивых требований: химическая стойкость и стабильность при высоких 
+        температурах в условиях характерных рабочих сред, высокая проницаемость для прохождения рабочих газовых сред 
+        при достаточной прочности, хорошая адгезия и взаимная совместимость по коэффициенту термического расширения с 
+        материалом электролита в широком диапазоне температур, определённые каталитические свойства анодного материала, 
+        интенсифицирующие проведение целевой электрохимической реакции.
+        <p></p></div>
+        ''', unsafe_allow_html=True)   
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Следует отметить для представления сложностей в производстве, что толщина электролита, в зависимости от 
+        подхода производителей, варьируется примерно от 10 до 150 микрон, то есть от 0.01 до 0.15 мм. Толщины анода 
+        и катода имеют схожий порядок величин.
+        <p></p></div>
+        ''', unsafe_allow_html=True)  
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Батареи топливных элементов, которые находят непосредственное применение в электрохимических генераторах, 
+        состоят из определённого количества собранных совместно единичных ТЭ (трубок) и других вспомогательных элементов, 
+        позволяющих работать отдельным ТЭ совместно, обеспечивающих равномерную подачу топлива и окислителя к анодам и 
+        катодам всех ТЭ одновременно, вывод отработанных продуктов реакции и электрическую коммутацию, внутреннюю и внешнюю.
+        <p></p></div>
+        ''', unsafe_allow_html=True)  
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Рисунок 2 представляет примерное устройство условного единичного блока планарного ТОТЭ, с организацией подвода 
+        топлива и окислителя к рабочим поверхностям электродов.
+        <p></p></div>
+        ''', unsafe_allow_html=True)  
+
+        col1, col2, col3 = st.columns([1,6,1])
+        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig2.jpg")), width=500, caption="Рисунок 2. − Пример устройства единичного планарного ТОТЭ")
+
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Если изображённую на рисунке 2 единичную структуру многократно повторить при последовательном 
+        её сложении по оси У, получится батарея планарных топливных элементов, как показано на рисунке 3.
+        <p></p></div>
+        ''', unsafe_allow_html=True)  
+
+        col1, col2, col3 = st.columns([1,6,1])
+        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig3.jpg")), width=500, caption="Рисунок 3. − Пример формирования планарной батареи ТОТЭ")
+
+
+        st.markdown('''
+        <div style="text-align: justify;">
+        Батарея трубчатых ТОТЭ представляет собой общий коллектор из множества параллельных трубок, внутренняя полость которых предназначена для движения одной 
+        из рабочих сред (топлива или окислителя), а наружное пространство – для другой, как в упрощённом виде показано на рисунке 4.
+        <p></p></div>
+        ''', unsafe_allow_html=True)  
+
+        col1, col2, col3 = st.columns([1,6,1])
+        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig4.jpg")), width=500, caption="Рисунок 4. − Пример организации батареи трубчатых ТОТЭ")
+
+
 
 if tab_selected == works[0] and lang_selected == langs[1]:
 
@@ -667,209 +788,6 @@ if tab_selected == works[0] and lang_selected == langs[1]:
             st.markdown('<p style="text-align: center; "><img src="https://raw.githubusercontent.com/MelnikovAP/sofc-streamlit/master/Images/polarization_curve.png" width=500/></p>',
                         unsafe_allow_html=True)
 
-if tab_selected == works[0] and lang_selected == langs[0]:
-    with st.container():
-        st.markdown('''
-        <div style="text-align: justify;">
-        Современная энергетика базируется в основном на электромеханическом способе преобразования энергии, когда тепловая энергия,
-         выделяющаяся при сгорании топлива сначала преобразуется в механическую (обычно вращения), которая в свою очередь 
-         преобразуется в электрическую посредством электрогенератора. Однако, обусловленный развитием цивилизации рост 
-         энергопотребления при исчерпаемости ископаемых энергоносителей, возрастание их стоимости и близкая к предельной 
-         экологическая нагрузка побуждают человечество предпринимать усилия по повышению эффективности преобразования энергии 
-         первичных источников в электрическую и развивать альтернативные способы ее производства. Такой альтернативой могут
-          стать работающие по принципу прямого преобразования энергии топливные элементы (ТЭ), которые позволяют сразу получать из 
-          энергии химических связей топлива электрическую без промежуточного перехода в механическую энергию. Такой процесс 
-          получения электроэнергии в ТЭ значительно более эффективен, чем в традиционно используемых в энергетике электромеханических 
-          преобразователях. В ТЭ нет движущихся частей что значительно увеличивает КПД процесса.
-        <p></p></div>
-        ''', unsafe_allow_html=True)
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Нельзя сказать, что ТЭ уже являются обыденными источниками энергии, но несомненно, технологии ТЭ переживают бурное развитие. 
-        ТЭ уже находят применение в стационарных энергоустановках широкого диапазона мощностей, транспортных силовых установках, 
-        переносных и портативных источниках электропитания.
-        <p></p></div>
-        ''', unsafe_allow_html=True)
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        В ТЭ химическая энергия топлива непосредственно преобразуется в электричество в процессе бесшумной и беспламенной 
-        электрохимической реакции. Электролит различных ТЭ может находиться в твёрдом (полимеры, гибридные материалы, керамика)
-         или жидком (раствор или расплав) агрегатном состоянии и должен обладать высокой ионной проводимостью (<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline-block" title="O^{2-} "> <mrow> <msup> <mrow> O </mrow> <mrow> <mn>2</mn> <mo>-</mo> </mrow> </msup> </mrow></math>, <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline-block" title="H^{+} "> <mrow> <msup> <mrow> H </mrow> <mrow> <mo>+</mo> </mrow> </msup> </mrow></math> 
-         и другие ионы, в зависимости от типа ТЭ) в сочетании с пренебрежимо малой электронной проводимостью. Тип электролита 
-         часто служит основой при классификации ТЭ.
-        <p></p></div>
-        ''', unsafe_allow_html=True)
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Среди различных типов топливных элементов, для энергоустановок стационарного назначения и целого ряда транспортных приложений 
-        наиболее подходящими представляются высокотемпературные твердооксидные топливные элементы (ТОТЭ).
-        <p></p></div>
-        ''', unsafe_allow_html=True)
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        ТОТЭ являются топливными элементами с самой высокой рабочей температурой. Рабочая температура ТОТЭ в общем случае может 
-        варьироваться от 600°C до 900°C. КПД производства электрической энергии у ТОТЭ – самый высокий из всех топливных элементов и в 
-        принципе может достигать 70%.
-        <p></p></div>
-        ''', unsafe_allow_html=True)
-
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Важнейшими преимуществами ТОТЭ являются широкий спектр потребляемых видов топлива – газообразные и жидкие углеводороды, спирты.
-        <p></p></div>
-        ''', unsafe_allow_html=True)
-
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Основными компонентами любого единичного ТЭ являются катод, анод и разделяющий их электролит.
-        <p></p></div>
-        ''', unsafe_allow_html=True)
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Принципиальная рабочая схема любого ТЭ выглядит довольно просто. К одной стороне ТЭ – аноду – необходимо подавать топливо (синтез-газ, 
-        содержащий водород и окись углерода, для ТОТЭ; чистый водород для наиболее распространённых низкотемпературных видов ТЭ или 
-        другие виды топлив для отдельных типов ТЭ), к другой стороне – катоду – подают воздух (или чистый кислород).
-        <p></p></div>
-        ''', unsafe_allow_html=True)
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        В ТОТЭ анод и катод представляют собой тонкие слои керамических и металлокерамических композитных материалов разного 
-        состава с открытой пористостью. Пористая структура электродов необходима, т.к. именно на развитой поверхности 
-        многочисленных пор происходят основные химические реакции.
-        <p></p></div>
-        ''', unsafe_allow_html=True)    
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Отличительной особенностью ТОТЭ является то, что для работы при высоких температурах используемый электролит представляет 
-        собой тонкую твердую керамическую структуру на основе оксидов металлов, часто в составе содержащих 
-        иттрий и цирконий, которая является проводником ионов кислорода (<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline-block" title="O^{2-} "> <mrow> <msup> <mrow> O </mrow> <mrow> <mn>2</mn> <mo>-</mo> </mrow> </msup> </mrow></math>). Именно благодаря особенностям электролита 
-        твёрдооксидный топливный элемент получил своё название.  
-        <p></p></div>
-        ''', unsafe_allow_html=True)    
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        На рисунке 1 показана упрощённая принципиальная схема ТОТЭ.  
-        <p></p></div>
-        ''', unsafe_allow_html=True) 
-
-        col1, col2, col3 = st.columns([1,6,1])
-        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig1.jpg")), width=500, caption="Рисунок 1. − Принципиальная схема ТОТЭ")
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Рассмотрим электрохимические реакции в ТОТЭ на простом примере водородного топлива. На катоде протекает реакция восстановления кислорода:
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" title="O_2 + 4\overline{e} = 2O^{2-} "> <mrow> <msub> <mrow> O </mrow> <mrow> <mn>2</mn> </mrow> </msub> <mo>+</mo> <mn>4</mn> <mover accent="true"> <mrow> <mi>e</mi> </mrow> <mo>¯</mo> </mover> <mo>=</mo> <mn>2</mn> <msup> <mrow> O </mrow> <mrow> <mn>2</mn> <mo>-</mo> </mrow> </msup> </mrow>,</math>  
-        <p></p></div>
-        ''', unsafe_allow_html=True)    
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        а на аноде – окисления топлива:
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" title="H_2 + O^{2-} = H_2O+ 2\overline{e} "> <mrow> <msub> <mrow> H </mrow> <mrow> <mn>2</mn> </mrow> </msub> <mo>+</mo> <msup> <mrow> O </mrow> <mrow> <mn>2</mn> <mo>-</mo> </mrow> </msup> <mo>=</mo> <msub> <mrow> H </mrow> <mrow> <mn>2</mn> </mrow> </msub> O <mo>+</mo> <mn>2</mn> <mover accent="true"> <mrow> <mi>e</mi> </mrow> <mo>¯</mo> </mover> </mrow></math>  
-        <p></p></div>
-        ''', unsafe_allow_html=True)   
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Ионы кислорода движутся через ионопроводящий твёрдый электролит от катода к аноду, где соединяются с водородом. 
-        Продуктом реакции в этом случае является вода. Общая реакция окисления:
-        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" title="2H_2 + O_2 \rightarrow 2H_2O "> <mrow> <mn>2</mn> <msub> <mrow> H </mrow> <mrow> <mn>2</mn> </mrow> </msub> <mo>+</mo> <msub> <mrow> O </mrow> <mrow> <mn>2</mn> </mrow> </msub> <mo>→</mo> <mn>2</mn> <msub> <mrow> H </mrow> <mrow> <mn>2</mn> </mrow> </msub> O </mrow>,</math>
-        <p></p></div>
-        ''', unsafe_allow_html=True)   
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        такая же, как и при горении водорода. Однако в ТЭ потоки топлива и окислителя не смешиваются, а реакции окисления топлива 
-        и восстановления кислорода, как и в батарейках, пространственно разделены и проходят на разных электродах – соответственно, 
-        процесс «сжигания» протекает, только если элемент попутно выдает ток во внешнюю цепь, вырабатывая электричество.  
-        <p></p></div>
-        ''', unsafe_allow_html=True)   
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Электролит ТОТЭ обеспечивает транспорт ионов кислорода <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline-block" title="O^{2-} "> <mrow> <msup> <mrow> O </mrow> <mrow> <mn>2</mn> <mo>-</mo> </mrow> </msup> </mrow></math> от катода к аноду и разделяет два газовых объёма: 
-        топливный и окислительный. Высоко избирательные ионопроводящие свойства твёрдого электролита (при минимально 
-        возможной электронной проводимости) достигаются тщательным подбором состава (соотношения основных компонентов 
-        и легирующих добавок) и специальными методами изготовления из него прецизионных тонкоплёночных структур, 
-        обеспечивающих газовую непроницаемость и высокую ионную проводимость. Ионопроводящая эффективность электролита 
-        напрямую зависит от толщины и температуры – падает с ростом первой и растёт с ростом второй. Чем тоньше можно 
-        сделать плёнку электролита, тем лучшую ионную проводимость он обеспечивает. При этом очень высокая температура 
-        процесса в ТОТЭ помимо преимущества в виде высокой эффективности имеет и существенные недостатки, а именно, 
-        необходимость применения в ТОТЭ дорогостоящих материалов, способных выдерживать такие критические условия на 
-        протяжении длительного времени. Уменьшая толщину электролита, можно в некоторой степени снизить температуру 
-        процесса в ТОТЭ, что очень важно с точки зрения подбора более доступных и дешёвых материалов для ТОТЭ.  
-        <p></p></div>
-        ''', unsafe_allow_html=True)   
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Не менее важным является подбор эффективных материалов для катода и анода, т.к. они должны отвечать целому 
-        комплексу специфических, часто противоречивых требований: химическая стойкость и стабильность при высоких 
-        температурах в условиях характерных рабочих сред, высокая проницаемость для прохождения рабочих газовых сред 
-        при достаточной прочности, хорошая адгезия и взаимная совместимость по коэффициенту термического расширения с 
-        материалом электролита в широком диапазоне температур, определённые каталитические свойства анодного материала, 
-        интенсифицирующие проведение целевой электрохимической реакции.
-        <p></p></div>
-        ''', unsafe_allow_html=True)   
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Следует отметить для представления сложностей в производстве, что толщина электролита, в зависимости от 
-        подхода производителей, варьируется примерно от 10 до 150 микрон, то есть от 0.01 до 0.15 мм. Толщины анода 
-        и катода имеют схожий порядок величин.
-        <p></p></div>
-        ''', unsafe_allow_html=True)  
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Батареи топливных элементов, которые находят непосредственное применение в электрохимических генераторах, 
-        состоят из определённого количества собранных совместно единичных ТЭ (трубок) и других вспомогательных элементов, 
-        позволяющих работать отдельным ТЭ совместно, обеспечивающих равномерную подачу топлива и окислителя к анодам и 
-        катодам всех ТЭ одновременно, вывод отработанных продуктов реакции и электрическую коммутацию, внутреннюю и внешнюю.
-        <p></p></div>
-        ''', unsafe_allow_html=True)  
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Рисунок 2 представляет примерное устройство условного единичного блока планарного ТОТЭ, с организацией подвода 
-        топлива и окислителя к рабочим поверхностям электродов.
-        <p></p></div>
-        ''', unsafe_allow_html=True)  
-
-        col1, col2, col3 = st.columns([1,6,1])
-        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig2.jpg")), width=500, caption="Рисунок 2. − Пример устройства единичного планарного ТОТЭ")
-
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Если изображённую на рисунке 2 единичную структуру многократно повторить при последовательном 
-        её сложении по оси У, получится батарея планарных топливных элементов, как показано на рисунке 3.
-        <p></p></div>
-        ''', unsafe_allow_html=True)  
-
-        col1, col2, col3 = st.columns([1,6,1])
-        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig3.jpg")), width=500, caption="Рисунок 3. − Пример формирования планарной батареи ТОТЭ")
-
-
-        st.markdown('''
-        <div style="text-align: justify;">
-        Батарея трубчатых ТОТЭ представляет собой общий коллектор из множества параллельных трубок, внутренняя полость которых предназначена для движения одной 
-        из рабочих сред (топлива или окислителя), а наружное пространство – для другой, как в упрощённом виде показано на рисунке 4.
-        <p></p></div>
-        ''', unsafe_allow_html=True)  
-
-        col1, col2, col3 = st.columns([1,6,1])
-        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig4.jpg")), width=500, caption="Рисунок 4. − Пример организации батареи трубчатых ТОТЭ")
 
 
 # @st.cache(allow_output_mutation=True)
@@ -909,33 +827,7 @@ for k in ["vi1","vi2","vi3","vi4","vi5","vi6","vi7","vi8","pi1","pi2"]:
     if k not in st.session_state.keys():
         st.session_state[k] = [
             temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-# if "tvi2" not in st.session_state.keys():
-#     st.session_state['tvi2'] = [
-#         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-# if "tvi3" not in st.session_state.keys():
-#     st.session_state['tvi3'] = [
-#         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-# if "tvi4" not in st.session_state.keys():
-#     st.session_state['tvi4'] = [
-#         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-# if "svi1" not in st.session_state.keys():
-#     st.session_state['svi1'] = [
-#         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-# if "svi2" not in st.session_state.keys():
-#     st.session_state['svi2'] = [
-#         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-# if "svi3" not in st.session_state.keys():
-#     st.session_state['svi3'] = [
-#         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-# if "svi4" not in st.session_state.keys():
-#     st.session_state['svi4'] = [
-#         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-# if "mvi1" not in st.session_state.keys():
-#     st.session_state['mvi1'] = [
-#         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-# if "mvi2" not in st.session_state.keys():
-#     st.session_state['mvi2'] = [
-#         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
+
 
 
 
@@ -973,15 +865,10 @@ plt_pi2 = PI()
 if tab_selected == works[1] and lang_selected == langs[0]:
 
     with st.container():
-        st.header("Effect of temperature on the performance of fuel cell")
+        st.header("Влияние температуры на характеристики топливного элемента")
         st.markdown('''
-        <div style="text-align: justify;">        
-        The ideal performance of a fuel cell depends on the electrochemical reactions that occur with different fuels and oxygen.
-        Standard-state reversible fuel cell voltages (E₀ values) are only useful under standard-state conditions (room temperature, atmospheric pressure, unit activities of all species). 
-        Fuel cells are frequently operated under conditions that vary greatly from the standard state. For example, high-temperature fuel cells operate at 700–1000°C, 
-        automotive fuel cells often operate under 3–5 atm of pressure, and almost all fuel cells cope with variations in the concentration (and therefore activity) of reactant species. 
-        In the following sections, we systematically define how reversible fuel cell voltages are affected by departures from the standard state. 
-        First, the influence of temperature on the reversible fuel cell voltage will be explored, then the influence of pressure.
+        <div style="text-align: justify;">  
+        Эффективность топливного элемента зависит от электрохимических реакций, протекающих в нём между топливом (водородом) и кислородом. Так, в стандартных или нормальных условиях (температура 25 °C, давление 1 атм, постоянные, равные 1, эффективные концентрации (активности) компонентов), "идеальный" топливный элемент будет выдавать т.н. стандартное напряжение (E₀), значение которого определяется конкретным типом реакциии и участвующими реагентами. Однако, топливные элементы часто эксплуатируются в условиях, значительно отличающихся от стандартных. Например, высокотемпературные топливные элементы работают при температуре 700–1000 °C, автомобильные топливные элементы часто работают при давлениях 3–5 атм, и почти все во всех этих случаях имеет место изменение концентрации (и, следовательно, активностей) реагентов.  В данной работе мы определим, как именно отклонения от стандартных условий влияют на значение напряжения топливного элемента: сначала изучим влияние температуры, а затем давления.
         <p></p></div>
         ''', unsafe_allow_html=True)
 
@@ -990,16 +877,15 @@ if tab_selected == works[1] and lang_selected == langs[0]:
         with st.container():
             
             st.markdown('''
-            To understand how the reversible voltage varies with temperature, lets look at the differential expression for the Gibbs free energy $G$ - one of
-            the most important themodynamic relation for chemical reactions in the fuel cell:
+            Чтобы понять, как меняется напряжение топливного элемента в зависимости от температуры, рассмотрим выражение для свободной энергии Гиббса (G) в дифференциальной форме – одно из важнейших термодинамических соотношений для описания протекающих в топливном элементе химических реакций:
             ''')
 
             st.latex(r'''
             \tag{1} dG = −SdT + Vdp
             ''')
 
-            st.markdown('''
-            where $S$ is entropy, $T$, $V$ and $p$ are thermodynamic parameters.  
+            st.markdown(''' 
+            где $S$ это энтропия, $T$, $V$ и $p$  - термодинамические параметры системы (температура, объём и давление соответственно).  
 
             From this equation, we find the relation between molar reaction quantities $\Delta g$  and $\Delta s$:
             ''')
@@ -1069,7 +955,7 @@ if tab_selected == works[1] and lang_selected == langs[0]:
 
 
             st.markdown('''
-            * Using the sidebars at the `Model parameters` panel change cell temperature to 1000 K. 
+            * Using the sidebars at the `Model parameters` panel change cell temperature to 1050 K. 
             * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
             * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
             ''')
@@ -1472,15 +1358,6 @@ if tab_selected == works[2] and lang_selected == langs[0]:
         col1.markdown(plt_statetitle("vi5"), unsafe_allow_html=True)
 
 
-        # with st.expander("График"):
-        #     col1, col2 = st.columns([3,1])
-        #     chk_cond1 = col2.checkbox("Allow to refresh", key="chk_cond1")
-        #     if chk_cond1 and btn_runsimulation:
-        #         st.session_state["svi1"] = [
-        #             temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-        #     st.bokeh_chart(makePlotVI(st.session_state["svi1"]))
-        #     col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["svi1"]))
-
         st.markdown('''
         * Using the sidebars at the `Model parameters` panel set parameter $\sigma$  to 0.2 S/m. 
         * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
@@ -1496,14 +1373,6 @@ if tab_selected == works[2] and lang_selected == langs[0]:
         st.bokeh_chart(plt_vi6.makePlotVI(st.session_state["vi6"]))
         col1.markdown(plt_statetitle("vi6"), unsafe_allow_html=True)
 
-        # with st.expander("График"):
-        #     col1, col2 = st.columns([3,1])
-        #     chk_cond1 = col2.checkbox("Allow to refresh", key="chk_cond2")
-        #     if chk_cond1 and btn_runsimulation:
-        #         st.session_state["svi2"] = [
-        #             temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-        #     st.bokeh_chart(makePlotVI(st.session_state["svi2"]))
-        #     col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["svi2"]))
 
 
 
@@ -1552,14 +1421,6 @@ if tab_selected == works[2] and lang_selected == langs[0]:
         st.bokeh_chart(plt_vi7.makePlotVI(st.session_state["vi7"]))
         col1.markdown(plt_statetitle("vi7"), unsafe_allow_html=True)
 
-        # with st.expander("График"):
-        #     col1, col2 = st.columns([3,1])
-        #     chk_cond1 = col2.checkbox("Allow to refresh", key="chk_cond3")
-        #     if chk_cond1 and btn_runsimulation:
-        #         st.session_state["svi3"] = [
-        #             temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-        #     st.bokeh_chart(makePlotVI(st.session_state["svi3"]))
-        #     col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["svi3"]))
 
 
 
@@ -1578,14 +1439,6 @@ if tab_selected == works[2] and lang_selected == langs[0]:
         col1.markdown(plt_statetitle("vi8"), unsafe_allow_html=True)
 
 
-        # with st.expander("График"):
-        #     col1, col2 = st.columns([3,1])
-        #     chk_cond1 = col2.checkbox("Allow to refresh", key="chk_cond4")
-        #     if chk_cond1 and btn_runsimulation:
-        #         st.session_state["svi4"] = [
-        #             temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-        #     st.bokeh_chart(makePlotVI(st.session_state["svi4"]))
-        #     col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["svi4"]))
 
         st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
 
