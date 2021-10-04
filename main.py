@@ -75,7 +75,7 @@ hide_full_screen = '''
 '''
 st.sidebar.markdown(hide_full_screen, unsafe_allow_html=True) 
 
-st.sidebar.image(load_image(os.path.dirname(__file__) + r"\Images\logo.png"))
+st.sidebar.image(load_image(os.path.join(os.path.dirname(__file__),"Images","logo.png")))
 
 
 
