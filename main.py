@@ -763,7 +763,7 @@ if tab_selected == works[0] and lang_selected == langs[0]:
         ''', unsafe_allow_html=True) 
 
         col1, col2, col3 = st.columns([1,6,1])
-        col2.image(load_image(os.path.dirname(__file__) + r"\Images\intro_fig1.jpg"), width=500, caption="Рисунок 1. − Принципиальная схема ТОТЭ")
+        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig1.jpg")), width=500, caption="Рисунок 1. − Принципиальная схема ТОТЭ")
 
         st.markdown('''
         <div style="text-align: justify;">
@@ -847,7 +847,7 @@ if tab_selected == works[0] and lang_selected == langs[0]:
         ''', unsafe_allow_html=True)  
 
         col1, col2, col3 = st.columns([1,6,1])
-        col2.image(load_image(os.path.dirname(__file__) + r"\Images\intro_fig2.jpg"), width=500, caption="Рисунок 2. − Пример устройства единичного планарного ТОТЭ")
+        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig2.jpg")), width=500, caption="Рисунок 2. − Пример устройства единичного планарного ТОТЭ")
 
 
         st.markdown('''
@@ -858,7 +858,7 @@ if tab_selected == works[0] and lang_selected == langs[0]:
         ''', unsafe_allow_html=True)  
 
         col1, col2, col3 = st.columns([1,6,1])
-        col2.image(load_image(os.path.dirname(__file__) + r"\Images\intro_fig3.jpg"), width=500, caption="Рисунок 3. − Пример формирования планарной батареи ТОТЭ")
+        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig3.jpg")), width=500, caption="Рисунок 3. − Пример формирования планарной батареи ТОТЭ")
 
 
         st.markdown('''
@@ -869,7 +869,7 @@ if tab_selected == works[0] and lang_selected == langs[0]:
         ''', unsafe_allow_html=True)  
 
         col1, col2, col3 = st.columns([1,6,1])
-        col2.image(load_image(os.path.dirname(__file__) + r"\Images\intro_fig4.jpg"), width=500, caption="Рисунок 4. − Пример организации батареи трубчатых ТОТЭ")
+        col2.image(load_image(os.path.join(os.path.dirname(__file__),"Images","intro_fig4.jpg")), width=500, caption="Рисунок 4. − Пример организации батареи трубчатых ТОТЭ")
 
 
 # @st.cache(allow_output_mutation=True)
