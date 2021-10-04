@@ -39,86 +39,14 @@ if tab_selected != works[0]:
     
 # ==============================
 
-
-# def get_ivc(temperature,sigma,ethick):
-#     payload = {
-#         'temperature': temperature,
-#         'sigma': sigma,
-#         'ethick': ethick * pow(10, -6)
-#     }
-#     result = requests.post(API_URL, data=payload)
-#     return
-
-# sys.path.append(os.path.dirname(__file__) + "/../../rev_5")
-
-
-# from tsofc import TSOFC
-# 
-# def get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
-#     payload = {
-#         "T": temperature,
-#         "P": pressure * 101325.0,
-#         "sigma": sigma,
-#         "ethick": ethick * pow(10, -6),
-#         "jm": jm,
-#         "anode_gas_X": "H2:{0:.2f}, H2O:{1:.2f}".format(H2ac, H2Oac),
-#         "cathode_gas_X": "O2:{0:.2f}, H2O:0.001".format(O2cc)
-#     }
-#     # print(payload)
-#     result = TSOFC(**payload).getPolarizationCurve()
-#     # print(result)
-#     return {
-#         'i': result[:, 0],
-#         'E1': result[:, 1],
-#         'E2': result[:, 2],
-#         'eta_ohmic': result[:, 3],
-#         'Eload': result[:, 4],
-#         'eta_con': result[:, 5],
-#     }
-
-
-def get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
+def get_ivc():
     payload = {
-        "temperature": temperature,
-        "pressure": pressure * 101325.0,
-        "sigma": sigma,
-        "ethick": ethick * pow(10, -6),
-        "jm": jm,
-        "H2ac": H2ac,
-        "H2Oac":H2Oac,
-        "O2cc":O2cc
-    }
-    result = requests.post(API_URL, data=payload).json()
-    return {k: np.array(result[k]) for k in result.keys()}
-
-
-# print(get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc))
-
-# def get_ivc(temperature, sigma, ethick, m, n, H2ac, H2Oac, O2cc):
-#     payload = {
-#         "T": temperature,
-#         "sigma": sigma,
-#         "ethick": ethick * pow(10, -6),
-#         "m": m * pow(10, -5),
-#         "n": n * pow(10, -2),
-#         "H2ac": H2ac,
-#         "H2Oac": H2Oac,
-#         "O2cc": O2cc,
-#     }
-#     result = requests.post(API_URL, data=payload)
-#     print(result,payload)
-#     return result
-
-# def get_ivc():
-#    payload = {
-#            'temperature': temperature,
-#            'sigma': sigma,
-#            'ethick': ethick * pow(10, -6)
-#        }
-#    result = requests.post(API_URL, data=payload)
-#    return result.json()
-
-
+            'temperature': temperature,
+            'sigma': sigma,
+            'ethick': ethick * pow(10, -6)
+        }
+    result = requests.post(API_URL, data=payload)
+    return result.json()
 
 # ==============================
 # Main page
