@@ -1650,7 +1650,7 @@ if tab_selected == works[3] and lang_selected == langs[0]:
 
     with st.container():
 
-        st.header("Mass transport losses")
+        st.header("Массоперенос в ТОТЭ")
  
         st.markdown('''
         <div style="text-align: justify;">
