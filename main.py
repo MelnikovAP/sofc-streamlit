@@ -460,7 +460,7 @@ if tab_selected == works[0] and lang_selected == langs[0]:
 
 if tab_selected == works[0] and lang_selected == langs[1]:
 
-    cflag = False
+    cflag = True
 
     if cflag:
 
@@ -838,7 +838,7 @@ task_title = lambda tsk,ttl: '''
     '''.format(tsk,ttl)
 
 task_subtitle = lambda ttl: '''
-    <div style="text-align: center;font-weight:bold;"> 
+    <div style="text-align: center;font-weight:bold; padding:30px 0px 10px 0px""> 
     {0:s}
     <p></p></div>
     '''.format(ttl)
@@ -868,7 +868,7 @@ if tab_selected == works[1] and lang_selected == langs[0]:
         st.header("Влияние температуры на характеристики топливного элемента")
         st.markdown('''
         <div style="text-align: justify;">  
-        Эффективность топливного элемента зависит от электрохимических реакций, протекающих в нём между топливом (водородом) и кислородом. Так, в стандартных или нормальных условиях (температура 25 °C, давление 1 атм, постоянные, равные 1, эффективные концентрации (активности) компонентов), "идеальный" топливный элемент будет выдавать т.н. стандартное напряжение (E₀), значение которого определяется конкретным типом реакциии и участвующими реагентами. Однако, топливные элементы часто эксплуатируются в условиях, значительно отличающихся от стандартных. Например, высокотемпературные топливные элементы работают при температуре 700–1000 °C, автомобильные топливные элементы часто работают при давлениях 3–5 атм, и почти все во всех этих случаях имеет место изменение концентрации (и, следовательно, активностей) реагентов.  В данной работе мы определим, как именно отклонения от стандартных условий влияют на значение напряжения топливного элемента: сначала изучим влияние температуры, а затем давления.
+        Эффективность топливного элемента зависит от электрохимических реакций, протекающих в нём между топливом (водородом) и кислородом. Так, в стандартных или нормальных условиях (температура 25 °C, давление 1 атм, постоянные, равные 1, эффективные концентрации (активности) компонентов), "идеальный" топливный элемент будет выдавать т.н. стандартное напряжение (E<sub>0</sub>), значение которого определяется конкретным типом реакциии и участвующими реагентами. Однако, топливные элементы часто эксплуатируются в условиях, значительно отличающихся от стандартных. Например, высокотемпературные топливные элементы работают при температуре 700–1000 °C, автомобильные топливные элементы часто работают при давлениях 3–5 атм, и почти все во всех этих случаях имеет место изменение концентрации (и, следовательно, активностей) реагентов.  В данной работе мы определим, как именно отклонения от стандартных условий влияют на значение напряжения топливного элемента: сначала изучим влияние температуры, а затем давления.
         <p></p></div>
         ''', unsafe_allow_html=True)
 
@@ -885,49 +885,50 @@ if tab_selected == works[1] and lang_selected == langs[0]:
             ''')
 
             st.markdown(''' 
-            где $S$ это энтропия, $T$, $V$ и $p$  - термодинамические параметры системы (температура, объём и давление соответственно).  
+            где S это энтропия, T, V и p  - термодинамические параметры системы (температура, объём и давление соответственно).  
 
-            From this equation, we find the relation between molar reaction quantities $\Delta g$  and $\Delta s$:
-            ''')
-
-            st.latex('''
-            (d (\Delta g)/dT)_p = −\Delta s
-            ''')
-
-            st.markdown('''
-            The Gibbs free energy $\Delta g$ is related to the cell voltage $E$, Faraday constant $F$  
-            and the number of moles of transferred electrons $n$ by the equation:
+            В нормировке на один моль вещества, выражение (1) можно записать в виде:
             ''')
 
             st.latex(r'''
-            \tag{2} \Delta g = -nFE
+            \tag{2} \left(\frac{d (\Delta g)}{dT}
+            \right)_p = −\Delta s
+            ''')
+
+            st.markdown('''
+            Свободную энергию Гиббса Δg можно выразить через напряжение топливного элемента E, константу Фарадея F и количество переносимых 
+            электронов n следующим образом:
+            ''')
+
+            st.latex(r'''
+            \tag{3} \Delta g = -nFE
             ''')   
 
             st.markdown('''
-            When we combine all previous expressions we can find how a fuel cell voltage $E$ varies as a function of temperature:
+            Объединив уравнения (2) и (3), найдем выражение для напряжения E топливного элемента как функции температуры:
             ''')         
 
             st.latex(r'''
-            (dE/dT)_p = \frac{\Delta s}{nF}
+            \tag{4} \left(\frac{dE}{dT}\right)_p = \frac{\Delta s}{nF}
             ''')   
 
 
             st.markdown('''
-            or in intagrated form:
+            или в интегральной форме:
             ''')
 
             st.latex(r'''
-            \tag{3} E_T=E_0+ nF \cdot \Delta s \cdot (T−T_0) 
+            \tag{5} E_T=E_0+ nF \cdot \Delta s \cdot (T−T_0) 
             ''')   
 
             st.markdown('''
-            where  $E_T$ is the reversible cell voltage at an arbitrary temperature $T$ and constant pressure. 
-            Generally, we assume $\Delta s$ to be independent of temperature. 
-            If a more accurate value of $E_T$ is required, it may be calculated by integrating the heat-capacity-related temperaturedependence of $\Delta s$.
+            где E<sub>T</sub> – напряжение топливного элемента при произвольной температуре T и постоянном давлении. 
+            Как правило, предполагается, что Δs не зависит от температуры, однако если значение E<sub>T</sub> требуется рассчитать более точно, 
+            это можно сделать путём интегрирования выражения для Δs как функции температуры.
             ''', unsafe_allow_html=True)
 
             st.markdown('''
-            A task below wil help you to understand the influence of working temperature on the fuel cell voltage.
+            Приведённое ниже задание поможет Вам понять влияние рабочей температуры топливного элемента на его напряжение.
             ''')
 
 
@@ -936,9 +937,9 @@ if tab_selected == works[1] and lang_selected == langs[0]:
             st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
 
             st.markdown('''
-            * Using the sidebars at the `Model parameters` panel change cell temperature to 900 K. 
-            * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-            * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+            * На боковой панели  `Параметры модели` установите температуру T на 900 К.
+            * Установите флажок `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+            * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
             ''')
 
 
@@ -955,9 +956,9 @@ if tab_selected == works[1] and lang_selected == langs[0]:
 
 
             st.markdown('''
-            * Using the sidebars at the `Model parameters` panel change cell temperature to 1050 K. 
-            * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-            * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+            * На боковой панели  `Параметры модели` установите температуру T на 1050 К.
+            * Установите флажок `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+            * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
             ''')
 
 
@@ -974,40 +975,40 @@ if tab_selected == works[1] and lang_selected == langs[0]:
 
 
             st.markdown('''
-            Compare the obtained Voltage-Current curves  and answer the questions:
-             
-            * How the fuel cell voltage $V$ reacts on temperature changing?
-            * How your assumptions relate with the above linear expression (3)? 
-
+            Сравните полученные графики и ответьте на следующие вопросы:
+            •	Как напряжение топливного элемента V меняется с изменением температуры T?
+            •	Как Ваши предположения соотносятся с приведённым выше выражением (5)?
             ''')
         with st.container():
             st.markdown('''
-                Like temperature effects, the pressure effects on cell voltage may also be calculated starting from the
-                differential expression for the Gibbs free energy (1) and its electrochemical definition (2): 
-                ''')
+            Как и температурный эффект, влияние давления на напряжение топливного элемента может быть получено из полного дифференциала
+            свободной энергии Гиббса (1) и его электрохимического выражения (3):
+            ''')
 
             st.latex(r'''
-                (d G/dp)_T = \Delta V \Rightarrow \left(\frac{d (\Delta g)}{dp}\right)_T = \Delta v 
-                ''')
+            \left(\frac{dG}{dp}\right)_T = \Delta V \Rightarrow \left(\frac{d (\Delta g)}{dp}\right)_T = \Delta v 
+            ''')
 
             st.markdown('''
-                and, finally:
-                ''')
+            И чего следует, что:
+            ''')
 
             st.latex(r'''
-                \tag{4} (dE/dp)_T = -\frac{\Delta v}{nF} 
-                ''')
+            \tag{6} \left(\frac{dE}{dp}\right)_T = -\frac{\Delta v}{nF} 
+            ''')
 
             st.markdown('''
-                Expression (4) means the variation of the reversible cell voltage with pressure is related to the volume change of the reaction. 
-                If the volume change of the reaction is negative (if fewer moles of gas are generated by the reaction than consumed, for instance), 
-                then the cell voltage will increase with increasing pressure. This is an example of *Le Chatelier’s principle*: 
-                Increasing the pressure of the system favors the reaction direction that relieves the stress on the system.
-                ''')
+            Выражение (6) показывает, что изменение напряжение топливного элемента связано с изменением объёма реагентов. 
+            Если изменение объёма отрицательно, то есть в результате реакции образуется меньше молей газа, чем вступило в реакцию, 
+            напряжение топливного элемента будет увеличиваться с увеличением давления. Этот вывод соответствует *принципу Ле Шателье*: 
+            если на систему, находящуюся в устойчивом равновесии, воздействовать извне, изменяя какое-либо из условий равновесия 
+            (температуру, давление, концентрацию, внешнее электромагнитное поле), то в системе усиливаются процессы, направленные в 
+            сторону противодействия изменениям.
+            ''')
 
             st.markdown('''
-                To understand how the fuel cell  works at non-ambient pressure, complete the following tasks:
-                ''')
+            Понять, как работает топливный элемент при давлении, отличающемся от стандартного, вам поможет следующее задание.
+            ''')
 
 
             st.markdown(task_title("Задание 1.2","Области нормального и высокого давлений"), unsafe_allow_html=True)
@@ -1015,9 +1016,9 @@ if tab_selected == works[1] and lang_selected == langs[0]:
             st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
 
             st.markdown('''
-            * Using the sidebars at the `Model parameters` panel change acting pressure value to 1.1 atm.   
-            * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-            * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+            * На боковой панели  `Параметры модели` установите давление p равным 1.1 атм.
+            * Установите флажок `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+            * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
             ''')
 
         
@@ -1031,9 +1032,9 @@ if tab_selected == works[1] and lang_selected == langs[0]:
     
 
             st.markdown('''
-            * Using the sidebars at the `Model parameters` panel change acting pressure value to 1.8 atm. 
-            * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-            * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+            * На боковой панели  `Параметры модели` увеличьте давление до 1.8 атм.
+            * Установите флажок `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+            * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
             ''')
 
         
@@ -1053,17 +1054,15 @@ if tab_selected == works[1] and lang_selected == langs[0]:
             st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
 
             st.markdown('''
-            Compare the obtained Voltage-Current curves and answer the questions:
-            
-            * How the fuel cell voltage $V$ reacts on the pressure changing?
-            * How do you think, is $V(p)$  follows *Le Chatelier’s principle*? 
-
+            Сравните полученные графики и ответьте на следующие вопросы:
+            * Как напряжение топливного элемента V меняется с изменением давления p?
+            * Как Вы думаете, соответствует ли V(p) принципу Ле Шателье?
             ''')
 
 
 if tab_selected == works[1] and lang_selected == langs[1]:
 
-    cflag = False
+    cflag = True
 
     if cflag:
         st.markdown('''
