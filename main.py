@@ -10,6 +10,9 @@ from bokeh.models import ColumnDataSource, Label, LabelSet, Range1d
 from bokeh.plotting import figure, output_file, show
 import time
 
+
+
+
 # import matplotlib.pyplot as plt
 
 from PIL import Image
@@ -127,7 +130,7 @@ st.sidebar.header(td[lang_selected][1])
 tab_selected = st.sidebar.selectbox(td[lang_selected][2], works)
 
 
-temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc = 970, 1.1, 2.0, 50, 80, 0.95, 0.05, 0.95
+_temperature, _pressure, _sigma, _ethick, _jm, _H2ac, _H2Oac, _O2cc = 970, 1.1, 2.0, 50, 80, 0.95, 0.05, 0.95
 
 
 
@@ -137,51 +140,49 @@ if tab_selected in works[1:4]:
     temperature = st.sidebar.slider(
         #'T [temperature], '+u'\N{DEGREE SIGN}'+'K',
         'T [' + td[lang_selected][4] + '], K',
-        700, 1200, 970, step=10, key="sld_temperature",
+        700, 1200, _temperature, step=10, key="sld_temperature",
     )
 
     pressure = st.sidebar.slider(
-        'p [' + td[lang_selected][5] + '], ' + td[lang_selected][8], 1.0, 3.0, 1.1, step=.1, key="sld_pressure"
+        'p [' + td[lang_selected][5] + '], ' + td[lang_selected][8], 1.0, 3.0, _pressure, step=.1, key="sld_pressure"
     )
 
     sigma = st.sidebar.slider(
-        u'\u03C3'+' [' + td[lang_selected][7] + '], ' + td[lang_selected][10], 0.0, 3.0, 2.0, step=.2, key="sld_sigma"
+        u'\u03C3'+' [' + td[lang_selected][7] + '], ' + td[lang_selected][10], 0.0, 3.0, _sigma, step=.2, key="sld_sigma"
     )
     ethick = st.sidebar.slider(
-        'd [' + td[lang_selected][6] + '], ' + td[lang_selected][11], 15, 155, 50, step=5, key="sld_ethick"
+        'd [' + td[lang_selected][6] + '], ' + td[lang_selected][11], 15, 155, _ethick, step=5, key="sld_ethick"
     )
 
 
     jm = st.sidebar.slider(
-        'jₘ , ' + td[lang_selected][9], 10, 150, 80, step=5, key="sld_jm"
+        'jₘ , ' + td[lang_selected][9], 10, 150, _jm, step=5, key="sld_jm"
     )
 
     H2ac = st.sidebar.slider('H₂, %', 0.8, 0.99,
-                             0.97, step=0.01, key="sld_H2ac")
+                             _H2ac, step=0.01, key="sld_H2ac")
     H2Oac = st.sidebar.slider(
-        'H₂O, %', 0.01, 0.07, 0.03, step=0.01, key="sld_H2Oac")
+        'H₂O, %', 0.01, 0.07, _H2Oac, step=0.01, key="sld_H2Oac")
 
 
-    # O2cc = st.sidebar.slider('O₂, %', 0.01, 1.0, 0.95,
-    #                           step=0.01, key="sld_O2cc")
+    O2cc = st.sidebar.slider('O₂, %', 0.01, 1.0, _O2cc,
+                              step=0.01, key="sld_O2cc")
 
 
-    if "sld_temperature" not in st.session_state:
-        st.session_state["sld_temperature"] = 970
-    if "sld_pressure" not in st.session_state:
-        st.session_state["sld_pressure"] = 1.1
-    if "sld_sigma" not in st.session_state:
-        st.session_state["sld_sigma"] = 2.0
-    if "sld_ethick" not in st.session_state:
-        st.session_state["sld_ethick"] = 50
-    if "sld_jm" not in st.session_state:
-        st.session_state["sld_jm"] = 80
-    if "sld_H2ac" not in st.session_state:
-        st.session_state["sld_H2ac"] = 0.97
-    if "sld_H2Oac" not in st.session_state:
-        st.session_state["sld_H2Oac"] = 0.03
-    if "sld_O2cc" not in st.session_state:
-        st.session_state["sld_O2cc"] = 0.95
+    for k, v in zip([
+        "sld_temperature",
+        "sld_pressure",
+        "sld_sigma",
+        "sld_ethick",
+        "sld_jm",
+        "sld_H2ac",
+        "sld_H2Oac",
+        "sld_O2cc"
+        ],[_temperature, _pressure, _sigma, _ethick, _jm, _H2ac, _H2Oac, _O2cc]):
+        if k not in st.session_state:
+            st.session_state[k] = v
+
+
 
     def _update_sliders(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
         st.session_state["sld_temperature"] = temperature
@@ -199,6 +200,11 @@ if tab_selected in works[1:4]:
     btn_runsimulation = col2.button(td[lang_selected][13])
 
 
+else:
+    temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc = _temperature, _pressure, _sigma, _ethick, _jm, _H2ac, _H2Oac, _O2cc
+
+
+    
 
 def get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
     payload = {
@@ -794,6 +800,10 @@ if tab_selected == works[0] and lang_selected == langs[1]:
 
 # @st.cache(allow_output_mutation=True)
 class VI():
+    def __init__(self,id=None) -> None:
+        self.id = id
+
+    @st.cache(allow_output_mutation=True)
     def makePlotVI(self,params=None):
         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc = params
         _result = get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc)
@@ -810,6 +820,11 @@ class VI():
 
 
 class PI():
+
+    def __init__(self,id=None) -> None:
+        self.id = id
+    
+    @st.cache(allow_output_mutation=True)
     def makePlotPI(self,params=None):
         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc = params
         _result = get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc)
@@ -853,18 +868,21 @@ plt_statetitle = lambda sts: '''
 
 
 
-plt_vi1 = VI()
-plt_vi2 = VI()
-plt_vi3 = VI()
-plt_vi4 = VI()
-plt_vi5 = VI()
-plt_vi6 = VI()
-plt_vi7 = VI()
-plt_vi8 = VI()
-plt_pi1 = PI()
-plt_pi2 = PI()
+plt_vi1 = VI("vi1")
+plt_vi2 = VI("vi2")
+plt_vi3 = VI("vi3")
+plt_vi4 = VI("vi4")
+plt_vi5 = VI("vi5")
+plt_vi6 = VI("vi6")
+plt_vi7 = VI("vi7")
+plt_vi8 = VI("vi8")
+plt_pi1 = PI("pi1")
+plt_pi2 = PI("pi2")
+
+
 
 if tab_selected == works[1] and lang_selected == langs[0]:
+
 
     with st.container():
         st.header("Влияние температуры на характеристики топливного элемента")
@@ -876,8 +894,7 @@ if tab_selected == works[1] and lang_selected == langs[0]:
 
 
        
-        with st.container():
-            
+        with st.container():            
             st.markdown('''
             Чтобы понять, как меняется напряжение топливного элемента в зависимости от температуры, рассмотрим выражение для свободной энергии Гиббса (G) в дифференциальной форме – одно из важнейших термодинамических соотношений для описания протекающих в топливном элементе химических реакций:
             ''')
@@ -1050,7 +1067,6 @@ if tab_selected == works[1] and lang_selected == langs[0]:
             if chk_vi4 and btn_runsimulation:
                 st.session_state["vi4"] = [
                     temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-
             st.bokeh_chart(plt_vi4.makePlotVI(st.session_state["vi4"]))
             col1.markdown(plt_statetitle("vi4"), unsafe_allow_html=True)
 
@@ -1285,10 +1301,9 @@ if tab_selected == works[1] and lang_selected == langs[1]:
 
 if tab_selected == works[2] and lang_selected == langs[0]:
 
+
     with st.container():
-
         st.header("Проводимость компонентов и ее влияние на работу ТОТЭ")
-
         st.markdown(r'''
         Омические потери (E<sub>Ohm</sub>) в топливном элементе являются результатом ионной проводимости через электролит и электрического сопротивления, 
         оказываемого потоку электронов во внешней электрической цепи. Это неотъемлемое свойство кристаллических материалов. 
@@ -1318,7 +1333,7 @@ if tab_selected == works[2] and lang_selected == langs[0]:
         ''')
 
 
-        st.latex(r''' \sigma = \sigma_0 \cdot e^{\frac{-A}{R \cdot T}}''')
+        st.latex(r''' \sigma = \sigma_0 \cdot e^{-A/RT}''')
 
         st.markdown('''
         где σ<sub>0</sub> и A – параметры, определяемые природой электролита, T – температура электролита, R – универсальная газовая постоянная. 
@@ -1329,105 +1344,101 @@ if tab_selected == works[2] and lang_selected == langs[0]:
         Приведённое ниже задание поможет Вам понять влияние удельной проводимости электролита на омические потери топливного элемента:
         ''')
 
-    with st.container():
+        with st.container():
+            st.markdown(task_title("Задание 2.1","Роль удельной проводимости электролита на омические потери топливного элемента"), unsafe_allow_html=True)
 
-        st.markdown(task_title("Задание 2.1","Роль удельной проводимости электролита на омические потери топливного элемента"), unsafe_allow_html=True)
+            st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
 
-        st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
+            st.markdown(r'''
+            * На боковой панели `Параметры модели` установите удельную проводимость σ на 0.2 См/м.
+            * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+            * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
+            ''')
 
-        st.markdown(r'''
-        * На боковой панели `Параметры модели` установите удельную проводимость σ на 0.2 См/м.
-        * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
-        * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
-        ''')
-
-
-        col1, col2 = st.columns([2,1])
-        chk_vi5 = col2.checkbox(td[lang_selected][14], key="chk_vi5")
-        if chk_vi5 and btn_runsimulation:
-            st.session_state["vi5"] = [
-                temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-        st.bokeh_chart(plt_vi5.makePlotVI(st.session_state["vi5"]))
-        col1.markdown(plt_statetitle("vi5"), unsafe_allow_html=True)
-
-
-        st.markdown('''
-        * На боковой панели `Параметры модели` установите удельную проводимость σ на 2.5 См/м.
-        * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку «Запуск симуляции» внизу боковой панели.
-        * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
-        ''')
-
-
-        col1, col2 = st.columns([2,1])
-        chk_vi6 = col2.checkbox(td[lang_selected][14], key="chk_vi6")
-        if chk_vi6 and btn_runsimulation:
-            st.session_state["vi6"] = [
-                temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-        st.bokeh_chart(plt_vi6.makePlotVI(st.session_state["vi6"]))
-        col1.markdown(plt_statetitle("vi6"), unsafe_allow_html=True)
+ 
+            col1, col2 = st.columns([2,1])
+            chk_vi5 = col2.checkbox(td[lang_selected][14], key="chk_vi5")
+            if chk_vi5 and btn_runsimulation:
+                st.session_state["vi5"] = [
+                    temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
+            st.bokeh_chart(plt_vi5.makePlotVI(st.session_state["vi5"]))
+            col1.markdown(plt_statetitle("vi5"), unsafe_allow_html=True)
 
 
 
+            st.markdown('''
+            * На боковой панели `Параметры модели` установите удельную проводимость σ на 2.5 См/м.
+            * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку «Запуск симуляции» внизу боковой панели.
+            * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
+            ''')
 
-        st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
-
-        st.markdown(r'''
-        Сравните полученные графики и ответьте на следующие вопросы:
-        <ol class="rectangle-list">
-        <li>Как увеличение удельной проводимости влияет на эффективность топливного элемента?</li>
-        <li>В какой область токов кривая V(I) меняется сильнее всего при варьировании σ?</li>
-        </ol>
-        ''', unsafe_allow_html=True)
-
-    with st.container():    
-
-        st.markdown(task_title("Задание 2.2","Роль толщины электролита на омические потери топливного элемента"), unsafe_allow_html=True)
-
-        st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
-
-        st.markdown(r'''
-        * На боковой панели `Параметры модели` установите толщину электролита d на 30 мкм.
-        * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
-        * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
-        ''')
+            col1, col2 = st.columns([2,1])
+            chk_vi6 = col2.checkbox(td[lang_selected][14], key="chk_vi6")
+            if chk_vi6 and btn_runsimulation:
+                st.session_state["vi6"] = [
+                    temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
+            st.bokeh_chart(plt_vi6.makePlotVI(st.session_state["vi6"]))
+            col1.markdown(plt_statetitle("vi6"), unsafe_allow_html=True)
 
 
+            st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
 
-        col1, col2 = st.columns([2,1])
-        chk_vi7 = col2.checkbox(td[lang_selected][14], key="chk_vi7")
-        if chk_vi7 and btn_runsimulation:
-            st.session_state["vi7"] = [
-                temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-        st.bokeh_chart(plt_vi7.makePlotVI(st.session_state["vi7"]))
-        col1.markdown(plt_statetitle("vi7"), unsafe_allow_html=True)
+            st.markdown(r'''
+            Сравните полученные графики и ответьте на следующие вопросы:
+            <ol class="rectangle-list">
+            <li>Как увеличение удельной проводимости влияет на эффективность топливного элемента?</li>
+            <li>В какой область токов кривая V(I) меняется сильнее всего при варьировании σ?</li>
+            </ol>
+            ''', unsafe_allow_html=True)
+
+
+
+        with st.container():  
+            st.markdown(task_title("Задание 2.2","Роль толщины электролита на омические потери топливного элемента"), unsafe_allow_html=True)
+
+            st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
+
+            st.markdown(r'''
+            * На боковой панели `Параметры модели` установите толщину электролита d на 30 мкм.
+            * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+            * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
+            ''')
+    
+            col1, col2 = st.columns([2,1])
+            chk_vi7 = col2.checkbox(td[lang_selected][14], key="chk_vi7")
+            if chk_vi7 and btn_runsimulation:
+                st.session_state["vi7"] = [
+                    temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
+            st.bokeh_chart(plt_vi7.makePlotVI(st.session_state["vi7"]))
+            col1.markdown(plt_statetitle("vi7"), unsafe_allow_html=True)
 
 
 
 
-        st.markdown(r'''
-        * На боковой панели `Параметры модели` установите толщину электролита d на 150 мкм.
-        * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
-        * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
-        ''')
+            st.markdown(r'''
+            * На боковой панели `Параметры модели` установите толщину электролита d на 150 мкм.
+            * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+            * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
+            ''')
 
-        col1, col2 = st.columns([2,1])
-        chk_vi8 = col2.checkbox(td[lang_selected][14], key="chk_vi8")
-        if chk_vi8 and btn_runsimulation:
-            st.session_state["vi8"] = [
-                temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-        st.bokeh_chart(plt_vi8.makePlotVI(st.session_state["vi8"]))
-        col1.markdown(plt_statetitle("vi8"), unsafe_allow_html=True)
+            col1, col2 = st.columns([2,1])
+            chk_vi8 = col2.checkbox(td[lang_selected][14], key="chk_vi8")
+            if chk_vi8 and btn_runsimulation:
+                st.session_state["vi8"] = [
+                    temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
+            st.bokeh_chart(plt_vi8.makePlotVI(st.session_state["vi8"]))
+            col1.markdown(plt_statetitle("vi8"), unsafe_allow_html=True)
 
 
 
-        st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
-        st.markdown(r'''
-        Сравните полученные графики и ответьте на следующие вопросы:
-        <ol class="rectangle-list">
-        <li>Как увеличение толщины электролита влияет на эффективность топливного элемента?</li>
-        <li>Какова связь между d и σ при фиксированном напряжении V?</li>
-        </ol>
-        ''', unsafe_allow_html=True)
+            st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
+            st.markdown(r'''
+            Сравните полученные графики и ответьте на следующие вопросы:
+            <ol class="rectangle-list">
+            <li>Как увеличение толщины электролита влияет на эффективность топливного элемента?</li>
+            <li>Какова связь между d и σ при фиксированном напряжении V?</li>
+            </ol>
+            ''', unsafe_allow_html=True)
 
 
 
@@ -1644,7 +1655,10 @@ if tab_selected == works[3] and lang_selected == langs[0]:
  
         st.markdown('''
         <div style="text-align: justify;">        
-              To produce electricity, a fuel cell must be continually supplied with fuel and oxidant. 
+        Для того, чтобы генерировать электричество, топливный элемент должен постоянно снабжаться  как топливом , так и окислителем.
+        В тоже время, вода, как продукт химической реакции, должны непрерывно удалься из рабочей области воизбежание потери в производительности ТОТЭ.
+
+
         At the same time, products must be continuously removed so as to avoid “strangling” the cell. 
         The process of supplying reactants and removing products is termed fuel cell mass transport. 
         As you will learn, this seemingly simple task can turn out to be quite complicated.
