@@ -31,7 +31,8 @@ API_URL = 'http://178.154.215.108/tote/ivc'
 
 
 styles_file = open(os.path.join(os.path.dirname(__file__),"style.css"),"r").read()
-st.sidebar.markdown("<style>" + styles_file + "</style>", unsafe_allow_html=True) 
+st.markdown("<style>" + styles_file + "</style>", unsafe_allow_html=True) 
+
 
 
 st.sidebar.image(load_image(os.path.join(os.path.dirname(__file__),"Images","logo.png")))
@@ -1904,8 +1905,8 @@ if tab_selected == works[4] and lang_selected == langs[0]:
         <div style="text-align: justify;"> 
         <p>  
         Выполнив предуыдущие работы, вы убедились, что топливный элемент - это  не что иное как преобразователь энергии,
-        который ковертирует энергию химической связи в электричество. Часто водород, H<sub>2</sub>, используется в качестве топлива и превращается в воду, 
-        H<sub>2</sub>O, однако, существуют топливные элементы  которые могут использовать и другие топливные газы, такие как метан CH<sub>3</sub>.        
+        который ковертирует энергию химической связи в электричество. Часто водород (H<sub>2</sub>) используется в качестве топлива и превращается в воду 
+        (H<sub>2</sub>O) однако, существуют топливные элементы  которые могут использовать и другие топливные газы, такие как метан (CH<sub>3</sub>).        
         </p>
         <p>
         Калькулятор, представленный ниже, позволит вам оценить суммарную энергию и количество воды, производимое топливным элементом 
@@ -1917,43 +1918,38 @@ if tab_selected == works[4] and lang_selected == langs[0]:
 
         # fuel_gas, eff_value, gen_power, gen_adduct = 0.0, 65.0, 0.0, 0.0
 
-
-        with st.container():
-
-            st.markdown('''<p></p>''', unsafe_allow_html=True)
-
-            col1, col2 = st.columns([1,1]) 
-            fuel_gas = col1.number_input(td[lang_selected][20], value=np.round(st.session_state['ni_fuel_gas'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_fuel_gas", on_change=_update_on_change_fuel_gas)
-            eff_value = col2.number_input(td[lang_selected][21], value=np.round(st.session_state['ni_eff_value'],1), format="%.0f",  min_value=0.1, max_value=100.0, step=1.0, key="ni_eff_value", on_change=_update_on_change_eff_value)
-            col1, col2 = st.columns([1,1])
-            gen_power = col1.number_input(td[lang_selected][22], value=np.round(st.session_state['ni_gen_power'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_power", on_change=_update_on_change_gen_power)
-            gen_adduct = col2.number_input(td[lang_selected][23], value=np.round(st.session_state['ni_gen_adduct'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_adduct", on_change=_update_on_change_gen_adduct)
+        col1, col2 = st.columns([1,1]) 
+        fuel_gas = col1.number_input(td[lang_selected][20], value=np.round(st.session_state['ni_fuel_gas'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_fuel_gas", on_change=_update_on_change_fuel_gas)
+        eff_value = col2.number_input(td[lang_selected][21], value=np.round(st.session_state['ni_eff_value'],1), format="%.0f",  min_value=0.1, max_value=100.0, step=1.0, key="ni_eff_value", on_change=_update_on_change_eff_value)
+        col1, col2 = st.columns([1,1])
+        gen_power = col1.number_input(td[lang_selected][22], value=np.round(st.session_state['ni_gen_power'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_power", on_change=_update_on_change_gen_power)
+        gen_adduct = col2.number_input(td[lang_selected][23], value=np.round(st.session_state['ni_gen_adduct'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_adduct", on_change=_update_on_change_gen_adduct)
 
 
-            # st.session_state['fuel_gas'] = fuel_gas
-            # st.session_state['eff_value'] = eff_value
-            # st.session_state['gen_power'] = gen_power
-            # st.session_state['gen_adduct'] = gen_adduct
+        # st.session_state['fuel_gas'] = fuel_gas
+        # st.session_state['eff_value'] = eff_value
+        # st.session_state['gen_power'] = gen_power
+        # st.session_state['gen_adduct'] = gen_adduct
 
 
-        with st.container():
+    with st.container():
 
-            st.markdown('''<p></p>''', unsafe_allow_html=True)
+        st.markdown('''<p></p>''', unsafe_allow_html=True)
 
-            st.markdown(task_title("Задание 4.1","Расчет характеристик энергоустановки"), unsafe_allow_html=True)
+        st.markdown(task_title("Задание 4.1","Расчет характеристик энергоустановки"), unsafe_allow_html=True)
 
-            st.markdown(task_subtitle("Работа с калькулятором"), unsafe_allow_html=True)
-            st.markdown('''
-                * Используя представленный выше калькулятор, посчитайте, какое количество топлива (газа водорода) понадобится для снабжения электроэнергией двухкомнатной квартры в которой проживает семья из трех человека? Средняя потребность одного человека в электроэнергии составляет около 63 кВтч в месяц. 
-                ''')
+        st.markdown(task_subtitle("Работа с калькулятором"), unsafe_allow_html=True)
+        st.markdown('''
+            * Используя представленный выше калькулятор, посчитайте, какое количество топлива (газа водорода) понадобится для снабжения электроэнергией двухкомнатной квартры в которой проживает семья из трех человека? Средняя потребность одного человека в электроэнергии составляет около 63 кВтч в месяц. 
+            ''')
 
-            st.markdown(task_subtitle("Дополнительные воросы"), unsafe_allow_html=True)
-            st.markdown(r'''
-            <ol class="rectangle-list">
-            <li>Какова будет стоимость месяца работы такой энергоустановки (средняя цена 1 кг водорода 800-1000 руб.)?</li>
-            <li>Можно ли оценить, какое количество тепла будет генерировать такая энергоустановка?</li>
-            </ol>
-            ''', unsafe_allow_html=True)
+        st.markdown(task_subtitle("Дополнительные воросы"), unsafe_allow_html=True)
+        st.markdown(r'''
+        <ol class="rectangle-list">
+        <li>Какова будет стоимость месяца работы такой энергоустановки (средняя цена 1 кг водорода 800-1000 руб.)?</li>
+        <li>Можно ли оценить, какое количество тепла будет генерировать такая энергоустановка?</li>
+        </ol>
+        ''', unsafe_allow_html=True)
         
 
 
