@@ -204,7 +204,6 @@ else:
     temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc = _temperature, _pressure, _sigma, _ethick, _jm, _H2ac, _H2Oac, _O2cc
 
 
-    
 
 def get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc):
     payload = {
@@ -1654,54 +1653,47 @@ if tab_selected == works[3] and lang_selected == langs[0]:
         st.header("Mass transport losses")
  
         st.markdown('''
-        <div style="text-align: justify;">        
+        <div style="text-align: justify;">
+        <p>        
         Для того, чтобы генерировать электричество, топливный элемент должен постоянно снабжаться  как топливом , так и окислителем.
-        В тоже время, вода, как продукт химической реакции, должны непрерывно удалься из рабочей области воизбежание потери в производительности ТОТЭ.
-
-
-        At the same time, products must be continuously removed so as to avoid “strangling” the cell. 
-        The process of supplying reactants and removing products is termed fuel cell mass transport. 
-        As you will learn, this seemingly simple task can turn out to be quite complicated.
-
-        Why are we so interested in fuel cell mass transport? The answer is because poor mass transport leads to significant fuel cell performance losses. 
-        To understand why poor mass transport can lead to a performance loss, remember that fuel cell performance 
-        is determined by the reactant and product concentrations within the catalyst layer, not at the fuel cell inlet. 
-        Thus, reactant depletion (or product accumulation) within the catalyst layer will adversely affect performance. 
-        This loss in performance is called a fuel cell *concentration* loss.
-
-        Concentration polarization losses are sometimes expressed as a function of the limiting current, $j_m$,
-        which is usually taken as a measure of the maximum rate atwhich a reactant can be supplied to an electrode:
+        В тоже время, вода, как продукт химической реакции, должны непрерывно удалься из рабочей области воизбежание потери в 
+        производительности ТОТЭ.
+        </p>
+        <p>
+        Процессы непрерывной подачи реагентов и удаления продуктов в топливных элементоах называется массопереносом. Плохой массовый транспорт приводит к значительным потерям в производительности топливных элементов. Все дело в том, что 
+        производительность топливных элементов определяется концентрацией реагента и продукта в слое катализатора, а не на входе в топливный элемент. Таким образом, истощение реагентов (или накопление продукта) в слое катализатора 
+        будет отрицательно влиять на производительность. Такие потери в производительности топливного элемента называется <i>концентационными</i> (E<sub>con</sub>).
+        </p> 
+        Как правило, концентрационные поляризационные потери иногда выражаются как функция предельного тока, j<sub>m</sub>,
+        которая является мерой максимальной скорости, с которой реагент может подаваться на электроды: 
         </div>
         ''', unsafe_allow_html=True)
 
-        st.latex(
-            r'''
-            E_{con} = \frac{RT}{2F}\cdot\ln\left(\frac{j_m}{j_m-j}\right)
-            '''
+        st.latex(r'''
+        \tag{1} E_{\text{con}} = \frac{RT}{2F}\cdot\ln\left(\frac{j_m}{j_m-j}\right)
+        '''
         )
 
 
         st.markdown('''
         <div style="text-align: justify;">        
-        To understand the influnce of the limiting current on the performance of the fuel cell complete the tollowing task.
+        Используя модель ТОТЭ, выполните следующее задание: 
         <p></p></div>
         ''', unsafe_allow_html=True)
 
 
     with st.container():
 
-        st.markdown(task_title("Задание 3.1","Test a low and high limiting current"), unsafe_allow_html=True)
-
+        st.markdown(task_title("Задание 3.1","Влияние параметра j<sub>m</sub> на работу ТОТЭ"), unsafe_allow_html=True)
         st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
 
     
-
-
         st.markdown('''
-        * Using the sidebars at the `Model parameters` panel change cell limiting current to 60 mA/cm². 
-        * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-        * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+        * На боковой панели `Параметры модели` установите значение лимитирующего тока равным  60 мА/cм².
+        * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+        * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты. 
         ''')
+
 
 
         col1, col2 = st.columns([2,1])
@@ -1713,20 +1705,10 @@ if tab_selected == works[3] and lang_selected == langs[0]:
         col1.markdown(plt_statetitle("pi1"), unsafe_allow_html=True)
 
 
-
-        # col1, col2 = st.columns([3,1])
-        # chk_temp2 = col2.checkbox("Allow to refresh", key="chk_mass1")
-        # if chk_temp2 and btn_runsimulation:
-        #     st.session_state["mvi1"] = [
-        #         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-        # st.bokeh_chart(makePlotPI(st.session_state["mvi1"]))
-        # col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["mvi1"]))
-
-
         st.markdown('''
-        * Using the sidebars at the `Model parameters` panel change cell limiting current to 100 mA/cm².  
-        * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-        * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+        * На боковой панели `Параметры модели` установите значение лимитирующего тока равным  100 мА/cм².
+        * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+        * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты. 
         ''')
 
         col1, col2 = st.columns([2,1])
@@ -1738,25 +1720,14 @@ if tab_selected == works[3] and lang_selected == langs[0]:
         col1.markdown(plt_statetitle("pi2"), unsafe_allow_html=True)
         
 
-        # col1, col2 = st.columns([3,1])
-        # chk_temp2 = col2.checkbox("Allow to refresh", key="chk_mass2")
-        # if chk_temp2 and btn_runsimulation:
-        #     st.session_state["mvi2"] = [
-        #         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-        # st.bokeh_chart(makePlotPI(st.session_state["mvi2"]))
-        # col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["mvi2"]))
-
-
-
         st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
-
-        st.markdown('''
-        Compare the obtained Power-Current curves  and answer the questions:
-         
-        * How the limiting current density affects on cell performance?
-
-
-        ''')
+        st.markdown(r'''
+        Сравните полученные графики P(I) и ответьте на следующие вопросы:
+        <ol class="rectangle-list">
+        <li> Попробуйте объяснить,  каким именно образом варьирование j<sub>m</sub> влияет на эффективность ТОТЭ?</li>
+        <li>В какой области токов влияние концентрационных потерь существенно сказывается на работе элемента, а где им можно пренебречь?</li>
+        </ol>
+        ''', unsafe_allow_html=True)
 
 
 if tab_selected == works[3] and lang_selected == langs[1]:
@@ -1946,12 +1917,18 @@ if tab_selected == works[4] and lang_selected == langs[0]:
 
         st.markdown(task_title("Задание 4.1","Расчет характеристик энергоустановки"), unsafe_allow_html=True)
 
-
+        st.markdown(task_subtitle("Работа с калькулятором"), unsafe_allow_html=True)
         st.markdown('''
             * Используя представленный выше калькулятор, посчитайте, какое количество топлива (газа водорода) понадобится для снабжения электроэнергией двухкомнатной квартры в которой проживает семья из трех человека? Средняя потребность одного человека в электроэнергии составляет около 63 кВтч в месяц. 
-            * Какова будет стоимость месяца работы такой энергоустановки (средняя цена 1 кг водорода 800-1000 руб.)?
-            * Можно ли оценить, какое количество тепла будет генерировать такая энергоустановка?
             ''')
+
+        st.markdown(task_subtitle("Дополнительные воросы"), unsafe_allow_html=True)
+        st.markdown(r'''
+        <ol class="rectangle-list">
+        <li>Какова будет стоимость месяца работы такой энергоустановки (средняя цена 1 кг водорода 800-1000 руб.)?</li>
+        <li>Можно ли оценить, какое количество тепла будет генерировать такая энергоустановка?</li>
+        </ol>
+        ''', unsafe_allow_html=True)
         
 
 
