@@ -27,13 +27,9 @@ def load_image(img):
 API_URL = 'http://178.154.215.108/tote/ivc'
 
 
+styles_file = open(os.path.join(os.path.dirname(__file__),"style.css"),"r").read()
+st.sidebar.markdown("<style>" + styles_file + "</style>", unsafe_allow_html=True) 
 
-hide_full_screen = '''
-<style>
-[data-testid='stSidebar'] button[title='View fullscreen']  {visibility: hidden;}
-</style>
-'''
-st.sidebar.markdown(hide_full_screen, unsafe_allow_html=True) 
 
 st.sidebar.image(load_image(os.path.join(os.path.dirname(__file__),"Images","logo.png")))
 
@@ -227,8 +223,14 @@ header_container = st.container()
 for item in works:
     if tab_selected == item:
         with header_container:
-            st.title(item)
-            '''***'''
+            st.title(item) 
+            st.markdown('''
+            <hr class="labcontent"/>
+            ''', unsafe_allow_html=True)
+
+
+
+
 
 
 
@@ -974,16 +976,21 @@ if tab_selected == works[1] and lang_selected == langs[0]:
             st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
 
 
-            st.markdown('''
+            st.markdown(r'''
             Сравните полученные графики и ответьте на следующие вопросы:
-            •	Как напряжение топливного элемента V меняется с изменением температуры T?
-            •	Как Ваши предположения соотносятся с приведённым выше выражением (5)?
-            ''')
+            <ol class="rectangle-list">
+            <li>Как напряжение топливного элемента V меняется с изменением температуры T?</li>
+            <li>Как Ваши предположения соотносятся с приведённым выше выражением (5)?</li>
+            </ol>
+            ''', unsafe_allow_html=True)
+
+
         with st.container():
             st.markdown('''
+            <hr />
             Как и температурный эффект, влияние давления на напряжение топливного элемента может быть получено из полного дифференциала
             свободной энергии Гиббса (1) и его электрохимического выражения (3):
-            ''')
+            ''', unsafe_allow_html=True)
 
             st.latex(r'''
             \left(\frac{dG}{dp}\right)_T = \Delta V \Rightarrow \left(\frac{d (\Delta g)}{dp}\right)_T = \Delta v 
@@ -1053,11 +1060,13 @@ if tab_selected == works[1] and lang_selected == langs[0]:
 
             st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
 
-            st.markdown('''
+            st.markdown(r'''
             Сравните полученные графики и ответьте на следующие вопросы:
-            * Как напряжение топливного элемента V меняется с изменением давления p?
-            * Как Вы думаете, соответствует ли V(p) принципу Ле Шателье?
-            ''')
+            <ol class="rectangle-list">
+            <li>Как напряжение топливного элемента V меняется с изменением давления p?</li>
+            <li>Как Вы думаете, соответствует ли V(p) принципу Ле Шателье?</li>
+            </ol>
+            ''', unsafe_allow_html=True)
 
 
 if tab_selected == works[1] and lang_selected == langs[1]:
@@ -1278,74 +1287,59 @@ if tab_selected == works[2] and lang_selected == langs[0]:
 
     with st.container():
 
-        st.header("Ohmic losses")
+        st.header("Проводимость компонентов и ее влияние на работу ТОТЭ")
 
         st.markdown(r'''
-        Ohmic losses ($E_{\text{Ohm}}$) in an SOFC result from ionic conductivity through the electrolyte and electrical resistance 
-        offered to the flow of electrons in the external electrical circuit. This is inherently a materials property 
-        of the crystal structure and atoms involved. However, to maximize the ionic conductivity, several methods 
-        can be done. Firstly, operating at higher temperatures can significantly decrease these ohmic losses. 
-        Substitutional doping methods to further refine the crystal structure and control defect concentrations 
-        can also play a significant role in increasing the conductivity. Another way to decrease ohmic resistance 
-        is to decrease the thickness of the electrolyte layer.
-
-        An ionic specific resistance of the electrolyte as a function of temperature can be described by the following relationship:
-        ''')
+        Омические потери (E<sub>Ohm</sub>) в топливном элементе являются результатом ионной проводимости через электролит и электрического сопротивления, 
+        оказываемого потоку электронов во внешней электрической цепи. Это неотъемлемое свойство кристаллических материалов. 
+        Чтобы снизить омические потери, а следовательно, максимизировать ионную проводимость, можно воспользоваться следующими методами:
+        <ol>
+        <li>работа при более высоких температурах;</li>
+        <li>использование замещающего легирования для дальнейшего улучшения кристаллической структуры материала и контроля концентрации дефектов</li>
+        <li>уменьшение толщины электролита.</li>
+        </ol>
+        ''', unsafe_allow_html=True)
 
         st.markdown(r'''
-        The general expression for theohmic loss is given by Ohm’s law in a finite form:
+        Общее выражение для термических потерь задаётся законом Ома:
         ''')
 
         st.latex(r''' E_{\text{Ohm}}=R_{\text{Ohm}} \cdot I''')
 
         st.markdown(r'''
-        where the resistance $R_{\text{Ohm}}$ depended from internal parameters of fuel cell materials as a current conductor, specsificaly $\sigma$ (average area conductivity) and
-        $d$ (elrolyte thickness).
-        ''')
+        где сопротивление R<sub>Ohm</sub> зависит от внутренних характеристик материалов топливного элемента как проводников тока, в частности удельной 
+        проводимости электролита σ и толщины электролита d:
+        ''', unsafe_allow_html=True)
 
-
-        st.markdown(r'''
-        In order to find out how $E_{\text{Ohm}}$  and $R_{\text{Ohm}}$ depends on $\sigma$ and  $\delta$ complete the following tasks:
-        ''')
-
-
-        st.latex(r''' r_1=\frac{\delta}{\sigma}''')
+        st.latex(r'''R_{\text{Ohm}} =\frac{\delta}{\sigma}''')
 
         st.markdown('''
-        where:  
-        >$\delta$ - electrolyte thickness  
-        >$\sigma$ - ionic conductivity  
-
-        The ionic conductivity of the solid oxide is defined as follows:
+        Удельная проводимость твёрдого оксида определяется следующим образом:
         ''')
 
 
-        st.latex(r''' \sigma = \sigma_0 \cdot e^{\frac{-E}{R \cdot T}}''')
+        st.latex(r''' \sigma = \sigma_0 \cdot e^{\frac{-A}{R \cdot T}}''')
 
         st.markdown('''
-        where:  
-        >$\sigma_{0}$ and $E$ – factors depended on electrolyte materials  
-        >$T$ – electrolyte temperature  
-        >$R$ – ideal gas constant  
-        ''')
+        где σ<sub>0</sub> и A – параметры, определяемые природой электролита, T – температура электролита, R – универсальная газовая постоянная. 
+        ''', unsafe_allow_html=True)
 
 
         st.markdown('''
-        Complete the following tasks: 
+        Приведённое ниже задание поможет Вам понять влияние удельной проводимости электролита на омические потери топливного элемента:
         ''')
 
     with st.container():
 
-        st.markdown(task_title("Задание 2.1","Electrolyte conductivity and its role in Ohmic losses"), unsafe_allow_html=True)
+        st.markdown(task_title("Задание 2.1","Роль удельной проводимости электролита на омические потери топливного элемента"), unsafe_allow_html=True)
 
         st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
 
         st.markdown(r'''
-        * Using the sidebars at the `Model parameters` panel set parameter $\sigma$  to 2.5 S/m. 
-        * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-        * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+        * На боковой панели `Параметры модели` установите удельную проводимость σ на 0.2 См/м.
+        * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+        * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
         ''')
-
 
 
         col1, col2 = st.columns([2,1])
@@ -1358,9 +1352,9 @@ if tab_selected == works[2] and lang_selected == langs[0]:
 
 
         st.markdown('''
-        * Using the sidebars at the `Model parameters` panel set parameter $\sigma$  to 0.2 S/m. 
-        * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-        * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+        * На боковой панели `Параметры модели` установите удельную проводимость σ на 2.5 См/м.
+        * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку «Запуск симуляции» внизу боковой панели.
+        * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
         ''')
 
 
@@ -1377,39 +1371,26 @@ if tab_selected == works[2] and lang_selected == langs[0]:
 
         st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
 
-        st.markdown('''
-        Compare the obtained Voltage-Current curves  and answer the questions:
-         
-        * How the increasing of conductivity affects on cell performance?
+        st.markdown(r'''
+        Сравните полученные графики и ответьте на следующие вопросы:
+        <ol class="rectangle-list">
+        <li>Как увеличение удельной проводимости влияет на эффективность топливного элемента?</li>
+        <li>В какой область токов кривая V(I) меняется сильнее всего при варьировании σ?</li>
+        </ol>
+        ''', unsafe_allow_html=True)
 
-        ''')
-
-        
     with st.container():    
 
-        st.markdown(task_title("Задание 2.2","Electrolyte thickness and its role in  Ohmic losses"), unsafe_allow_html=True)
+        st.markdown(task_title("Задание 2.2","Роль толщины электролита на омические потери топливного элемента"), unsafe_allow_html=True)
 
         st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
 
         st.markdown(r'''
-        * Using the sidebars at the `Model parameters` panel set parameter $d$  to 30 µm. 
-        * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-        * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+        * На боковой панели `Параметры модели` установите толщину электролита d на 30 мкм.
+        * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+        * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
         ''')
 
-        st.markdown(
-            '''
-            <style>
-            .reportview-container {
-                background: url("url_goes_here")
-            }
-            .sidebar .sidebar-content {
-                background: url("url_goes_here")
-            }
-            </style>
-            ''',
-            unsafe_allow_html=True
-        )
 
 
         col1, col2 = st.columns([2,1])
@@ -1424,9 +1405,9 @@ if tab_selected == works[2] and lang_selected == langs[0]:
 
 
         st.markdown(r'''
-        * Using the sidebars at the `Model parameters` panel set parameter  $d$ to 150 µm.
-        * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-        * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+        * На боковой панели `Параметры модели` установите толщину электролита d на 150 мкм.
+        * Установите флажок на функцию `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
+        * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
         ''')
 
         col1, col2 = st.columns([2,1])
@@ -1440,15 +1421,14 @@ if tab_selected == works[2] and lang_selected == langs[0]:
 
 
         st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
+        st.markdown(r'''
+        Сравните полученные графики и ответьте на следующие вопросы:
+        <ol class="rectangle-list">
+        <li>Как увеличение толщины электролита влияет на эффективность топливного элемента?</li>
+        <li>Какова связь между d и σ при фиксированном напряжении V?</li>
+        </ol>
+        ''', unsafe_allow_html=True)
 
-        st.markdown('''
-        Compare the obtained Voltage-Current curves  and answer the questions:
-         
-        * How the increasing of electrolyte thickness affects on cell performance?
-        * What is the relationship between $d$  and $\sigma$ at fixed $V$?
-
-
-        ''')
 
 
 if tab_selected == works[2] and lang_selected == langs[1]:
