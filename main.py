@@ -806,6 +806,7 @@ class VI():
     def makePlotVI(self,params=None):
         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc = params
         _result = get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc)
+        # time.sleep(3)
         _p = figure(
             x_axis_label=td[lang_selected][18] + ', ' + td[lang_selected][9],
             y_axis_label=td[lang_selected][17] + ', '+ td[lang_selected][15],
@@ -827,6 +828,7 @@ class PI():
     def makePlotPI(self,params=None):
         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc = params
         _result = get_ivc(temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc)
+        # time.sleep(3)
         _p = figure(
             x_axis_label=td[lang_selected][18] + ', ' + td[lang_selected][9],
             y_axis_label=td[lang_selected][19] + ', '+ td[lang_selected][16],
@@ -893,7 +895,8 @@ if tab_selected == works[1] and lang_selected == langs[0]:
 
 
        
-        with st.container():            
+        with st.container():  
+            
             st.markdown('''
             Чтобы понять, как меняется напряжение топливного элемента в зависимости от температуры, рассмотрим выражение для свободной энергии Гиббса (G) в дифференциальной форме – одно из важнейших термодинамических соотношений для описания протекающих в топливном элементе химических реакций:
             ''')
@@ -1002,6 +1005,7 @@ if tab_selected == works[1] and lang_selected == langs[0]:
 
 
         with st.container():
+
             st.markdown('''
             <hr />
             Как и температурный эффект, влияние давления на напряжение топливного элемента может быть получено из полного дифференциала
@@ -1318,21 +1322,26 @@ if tab_selected == works[2] and lang_selected == langs[0]:
         Общее выражение для термических потерь задаётся законом Ома:
         ''')
 
-        st.latex(r''' E_{\text{Ohm}}=R_{\text{Ohm}} \cdot I''')
+        st.latex(r'''
+        \tag{1} E_{\text{Ohm}}=R_{\text{Ohm}} \cdot I
+        ''')
 
         st.markdown(r'''
         где сопротивление R<sub>Ohm</sub> зависит от внутренних характеристик материалов топливного элемента как проводников тока, в частности удельной 
         проводимости электролита σ и толщины электролита d:
         ''', unsafe_allow_html=True)
 
-        st.latex(r'''R_{\text{Ohm}} =\frac{\delta}{\sigma}''')
-
-        st.markdown('''
-        Удельная проводимость твёрдого оксида определяется следующим образом:
+        st.latex(r'''
+        \tag{2} R_{\text{Ohm}} =\frac{\delta}{\sigma}
         ''')
 
+        st.markdown('''
+        Удельная проводимость твёрдого оксида, как правило, зависит от температуры и определяется следующим образом:
+        ''')
 
-        st.latex(r''' \sigma = \sigma_0 \cdot e^{-A/RT}''')
+        st.latex(r'''
+        \tag{3} \sigma = \sigma_0 \cdot e^{-A/RT}
+        ''')
 
         st.markdown('''
         где σ<sub>0</sub> и A – параметры, определяемые природой электролита, T – температура электролита, R – универсальная газовая постоянная. 
@@ -1344,6 +1353,7 @@ if tab_selected == works[2] and lang_selected == langs[0]:
         ''')
 
         with st.container():
+
             st.markdown(task_title("Задание 2.1","Роль удельной проводимости электролита на омические потери топливного элемента"), unsafe_allow_html=True)
 
             st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
@@ -1354,7 +1364,7 @@ if tab_selected == works[2] and lang_selected == langs[0]:
             * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
             ''')
 
- 
+            
             col1, col2 = st.columns([2,1])
             chk_vi5 = col2.checkbox(td[lang_selected][14], key="chk_vi5")
             if chk_vi5 and btn_runsimulation:
@@ -1382,6 +1392,8 @@ if tab_selected == works[2] and lang_selected == langs[0]:
 
             st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
 
+        
+
             st.markdown(r'''
             Сравните полученные графики и ответьте на следующие вопросы:
             <ol class="rectangle-list">
@@ -1392,7 +1404,10 @@ if tab_selected == works[2] and lang_selected == langs[0]:
 
 
 
-        with st.container():  
+        with st.container(): 
+
+            st.markdown('''<p></p>''', unsafe_allow_html=True)
+
             st.markdown(task_title("Задание 2.2","Роль толщины электролита на омические потери топливного элемента"), unsafe_allow_html=True)
 
             st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
@@ -1684,7 +1699,9 @@ if tab_selected == works[3] and lang_selected == langs[0]:
 
     with st.container():
 
+
         st.markdown(task_title("Задание 3.1","Влияние параметра j<sub>m</sub> на работу ТОТЭ"), unsafe_allow_html=True)
+
         st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
 
     
@@ -1704,6 +1721,7 @@ if tab_selected == works[3] and lang_selected == langs[0]:
         st.bokeh_chart(plt_pi1.makePlotPI(st.session_state["pi1"]))
         col1.markdown(plt_statetitle("pi1"), unsafe_allow_html=True)
 
+    with st.container():
 
         st.markdown('''
         * На боковой панели `Параметры модели` установите значение лимитирующего тока равным  100 мА/cм².
@@ -1841,16 +1859,15 @@ if tab_selected == works[3] and lang_selected == langs[1]:
                 ''')
 
 
-if "ni_fuel_gas" not in st.session_state.keys():
-    st.session_state['ni_fuel_gas'] = np.round(10.0,1)
 
-if "ni_eff_value" not in st.session_state.keys():
-    st.session_state['ni_eff_value'] = np.round(65.0,1)
-if "ni_gen_power" not in st.session_state.keys():
-    st.session_state['ni_gen_power'] = np.round(216.0,1)
-
-if "ni_gen_adduct" not in st.session_state.keys():
-    st.session_state['ni_gen_adduct'] = np.round(89.0,1)
+for k, v in zip([
+    "ni_fuel_gas",
+    "ni_eff_value",
+    "ni_gen_power",
+    "ni_gen_adduct",
+    ],[np.round(10.0,1), np.round(65.0,1), np.round(216.0,1), np.round(89.0,1)]):
+    if k not in st.session_state:
+        st.session_state[k] = v
 
 
 
@@ -1882,14 +1899,18 @@ def _update_on_change_gen_adduct():
 if tab_selected == works[4] and lang_selected == langs[0]:
     
     with st.container():
-        st.header("Fuel Cell Calculator")
+        st.header("Расчет характеристик батарии ТОТЭ")
         st.markdown('''
-        <div style="text-align: justify;">        
-        Calculate the energy and the amount of water a fuel cell produces when burning hydrogen. 
-        A fuel cell is an energy converter, which transforms chemical binding energy into electricity. 
-        Often hydrogen, H₂, is used as a fuel and transformed into water, H₂O. This calculator refers to the use with hydrogen. 
-        Fuel cells can also use other materials, like methane.
-        <p></p></div>
+        <div style="text-align: justify;"> 
+        <p>  
+        Выполнив предуыдущие работы, вы убедились, что топливный элемент - это  не что иное как преобразователь энергии,
+        который ковертирует энергию химической связи в электричество. Часто водород, H<sub>2</sub>, используется в качестве топлива и превращается в воду, 
+        H<sub>2</sub>O, однако, существуют топливные элементы  которые могут использовать и другие топливные газы, такие как метан CH<sub>3</sub>.        
+        </p>
+        <p>
+        Калькулятор, представленный ниже, позволит вам оценить суммарную энергию и количество воды, производимое топливным элементом 
+        при сжигании водорода.
+        </p></div>
         ''', unsafe_allow_html=True)
 
 
@@ -1897,38 +1918,42 @@ if tab_selected == works[4] and lang_selected == langs[0]:
         # fuel_gas, eff_value, gen_power, gen_adduct = 0.0, 65.0, 0.0, 0.0
 
 
+        with st.container():
+
+            st.markdown('''<p></p>''', unsafe_allow_html=True)
+
+            col1, col2 = st.columns([1,1]) 
+            fuel_gas = col1.number_input(td[lang_selected][20], value=np.round(st.session_state['ni_fuel_gas'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_fuel_gas", on_change=_update_on_change_fuel_gas)
+            eff_value = col2.number_input(td[lang_selected][21], value=np.round(st.session_state['ni_eff_value'],1), format="%.0f",  min_value=0.1, max_value=100.0, step=1.0, key="ni_eff_value", on_change=_update_on_change_eff_value)
+            col1, col2 = st.columns([1,1])
+            gen_power = col1.number_input(td[lang_selected][22], value=np.round(st.session_state['ni_gen_power'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_power", on_change=_update_on_change_gen_power)
+            gen_adduct = col2.number_input(td[lang_selected][23], value=np.round(st.session_state['ni_gen_adduct'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_adduct", on_change=_update_on_change_gen_adduct)
 
 
-        col1, col2 = st.columns([1,1]) 
-        fuel_gas = col1.number_input(td[lang_selected][20], value=np.round(st.session_state['ni_fuel_gas'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_fuel_gas", on_change=_update_on_change_fuel_gas)
-        eff_value = col2.number_input(td[lang_selected][21], value=np.round(st.session_state['ni_eff_value'],1), format="%.0f",  min_value=0.1, max_value=100.0, step=1.0, key="ni_eff_value", on_change=_update_on_change_eff_value)
-        col1, col2 = st.columns([1,1])
-        gen_power = col1.number_input(td[lang_selected][22], value=np.round(st.session_state['ni_gen_power'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_power", on_change=_update_on_change_gen_power)
-        gen_adduct = col2.number_input(td[lang_selected][23], value=np.round(st.session_state['ni_gen_adduct'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_adduct", on_change=_update_on_change_gen_adduct)
+            # st.session_state['fuel_gas'] = fuel_gas
+            # st.session_state['eff_value'] = eff_value
+            # st.session_state['gen_power'] = gen_power
+            # st.session_state['gen_adduct'] = gen_adduct
 
 
-        # st.session_state['fuel_gas'] = fuel_gas
-        # st.session_state['eff_value'] = eff_value
-        # st.session_state['gen_power'] = gen_power
-        # st.session_state['gen_adduct'] = gen_adduct
+        with st.container():
 
+            st.markdown('''<p></p>''', unsafe_allow_html=True)
 
+            st.markdown(task_title("Задание 4.1","Расчет характеристик энергоустановки"), unsafe_allow_html=True)
 
+            st.markdown(task_subtitle("Работа с калькулятором"), unsafe_allow_html=True)
+            st.markdown('''
+                * Используя представленный выше калькулятор, посчитайте, какое количество топлива (газа водорода) понадобится для снабжения электроэнергией двухкомнатной квартры в которой проживает семья из трех человека? Средняя потребность одного человека в электроэнергии составляет около 63 кВтч в месяц. 
+                ''')
 
-        st.markdown(task_title("Задание 4.1","Расчет характеристик энергоустановки"), unsafe_allow_html=True)
-
-        st.markdown(task_subtitle("Работа с калькулятором"), unsafe_allow_html=True)
-        st.markdown('''
-            * Используя представленный выше калькулятор, посчитайте, какое количество топлива (газа водорода) понадобится для снабжения электроэнергией двухкомнатной квартры в которой проживает семья из трех человека? Средняя потребность одного человека в электроэнергии составляет около 63 кВтч в месяц. 
-            ''')
-
-        st.markdown(task_subtitle("Дополнительные воросы"), unsafe_allow_html=True)
-        st.markdown(r'''
-        <ol class="rectangle-list">
-        <li>Какова будет стоимость месяца работы такой энергоустановки (средняя цена 1 кг водорода 800-1000 руб.)?</li>
-        <li>Можно ли оценить, какое количество тепла будет генерировать такая энергоустановка?</li>
-        </ol>
-        ''', unsafe_allow_html=True)
+            st.markdown(task_subtitle("Дополнительные воросы"), unsafe_allow_html=True)
+            st.markdown(r'''
+            <ol class="rectangle-list">
+            <li>Какова будет стоимость месяца работы такой энергоустановки (средняя цена 1 кг водорода 800-1000 руб.)?</li>
+            <li>Можно ли оценить, какое количество тепла будет генерировать такая энергоустановка?</li>
+            </ol>
+            ''', unsafe_allow_html=True)
         
 
 
