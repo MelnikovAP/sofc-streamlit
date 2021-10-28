@@ -468,7 +468,7 @@ if tab_selected == works[0] and lang_selected == langs[0]:
 
 if tab_selected == works[0] and lang_selected == langs[1]:
 
-    cflag = True
+    cflag = False
 
     if cflag:
 
@@ -1092,7 +1092,7 @@ if tab_selected == works[1] and lang_selected == langs[0]:
 
 if tab_selected == works[1] and lang_selected == langs[1]:
 
-    cflag = True
+    cflag = False
 
     if cflag:
         st.markdown('''
@@ -1460,7 +1460,7 @@ if tab_selected == works[2] and lang_selected == langs[0]:
 
 if tab_selected == works[2] and lang_selected == langs[1]:
 
-    cflag = True 
+    cflag = False 
 
     if cflag:
         st.markdown('''
@@ -1539,13 +1539,13 @@ if tab_selected == works[2] and lang_selected == langs[1]:
 
                 ''')
 
-                col1, col2 = st.columns([3,1])
-                chk_cond1 = col2.checkbox("Allow to refresh", key="chk_cond1")
-                if chk_cond1 and btn_runsimulation:
-                    st.session_state["svi1"] = [
+                col1, col2 = st.columns([2,1])
+                chk_vi5 = col2.checkbox(td[lang_selected][14], key="chk_vi5")
+                if chk_vi5 and btn_runsimulation:
+                    st.session_state["vi5"] = [
                         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-                st.bokeh_chart(makePlotVI(st.session_state["svi1"]))
-                col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["svi1"]))
+                st.bokeh_chart(plt_vi5.makePlotVI(st.session_state["vi5"]))
+                col1.markdown(plt_statetitle("vi5"), unsafe_allow_html=True)
 
                 st.markdown('''
                 * Using the sidebars at the `Model parameters` panel set parameter $\sigma$  to 0.2 S/m. 
@@ -1557,13 +1557,13 @@ if tab_selected == works[2] and lang_selected == langs[1]:
                 ''')
 
                 
-                col1, col2 = st.columns([3,1])
-                chk_cond1 = col2.checkbox("Allow to refresh", key="chk_cond2")
-                if chk_cond1 and btn_runsimulation:
-                    st.session_state["svi2"] = [
+                col1, col2 = st.columns([2,1])
+                chk_vi6 = col2.checkbox(td[lang_selected][14], key="chk_vi6")
+                if chk_vi6 and btn_runsimulation:
+                    st.session_state["vi6"] = [
                         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-                st.bokeh_chart(makePlotVI(st.session_state["svi2"]))
-                col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["svi2"]))
+                st.bokeh_chart(plt_vi6.makePlotVI(st.session_state["vi6"]))
+                col1.markdown(plt_statetitle("vi6"), unsafe_allow_html=True)
 
                 st.markdown('''    
 
@@ -1609,15 +1609,13 @@ if tab_selected == works[2] and lang_selected == langs[1]:
                     unsafe_allow_html=True
                 )
 
-                with st.container():
-
-                    col1, col2 = st.columns([3,1])
-                    chk_cond1 = col2.checkbox("Allow to refresh", key="chk_cond3")
-                    if chk_cond1 and btn_runsimulation:
-                        st.session_state["svi3"] = [
-                            temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-                    st.bokeh_chart(makePlotVI(st.session_state["svi3"]))
-                    col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["svi3"]))
+                col1, col2 = st.columns([2,1])
+                chk_vi7 = col2.checkbox(td[lang_selected][14], key="chk_vi7")
+                if chk_vi7 and btn_runsimulation:
+                    st.session_state["vi7"] = [
+                        temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
+                st.bokeh_chart(plt_vi7.makePlotVI(st.session_state["vi7"]))
+                col1.markdown(plt_statetitle("vi7"), unsafe_allow_html=True)
 
                 st.markdown('''    
 
@@ -1636,13 +1634,13 @@ if tab_selected == works[2] and lang_selected == langs[1]:
                 ''')
 
                 
-                col1, col2 = st.columns([3,1])
-                chk_cond1 = col2.checkbox("Allow to refresh", key="chk_cond4")
-                if chk_cond1 and btn_runsimulation:
-                    st.session_state["svi4"] = [
+                col1, col2 = st.columns([2,1])
+                chk_vi8 = col2.checkbox(td[lang_selected][14], key="chk_vi8")
+                if chk_vi8 and btn_runsimulation:
+                    st.session_state["vi8"] = [
                         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-                st.bokeh_chart(makePlotVI(st.session_state["svi4"]))
-                col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["svi4"]))
+                st.bokeh_chart(plt_vi8.makePlotVI(st.session_state["vi8"]))
+                col1.markdown(plt_statetitle("vi8"), unsafe_allow_html=True)
 
                 st.markdown('''    
 
@@ -1752,7 +1750,7 @@ if tab_selected == works[3] and lang_selected == langs[0]:
 
 if tab_selected == works[3] and lang_selected == langs[1]:
 
-    cflag = True 
+    cflag = False 
 
     if cflag:
         st.markdown('''
@@ -1810,13 +1808,13 @@ if tab_selected == works[3] and lang_selected == langs[1]:
 
                 ''')
 
-                col1, col2 = st.columns([3,1])
-                chk_temp2 = col2.checkbox("Allow to refresh", key="chk_mass1")
-                if chk_temp2 and btn_runsimulation:
-                    st.session_state["mvi1"] = [
+                col1, col2 = st.columns([2,1])
+                chk_pi1 = col2.checkbox(td[lang_selected][14], key="chk_pi1")
+                if chk_pi1 and btn_runsimulation:
+                    st.session_state["pi1"] = [
                         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-                st.bokeh_chart(makePlotPI(st.session_state["mvi1"]))
-                col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["mvi1"]))
+                st.bokeh_chart(plt_pi1.makePlotPI(st.session_state["pi1"]))
+                col1.markdown(plt_statetitle("pi1"), unsafe_allow_html=True)
 
                 st.markdown('''    
 
@@ -1833,14 +1831,14 @@ if tab_selected == works[3] and lang_selected == langs[1]:
 
                 ''')
 
-                col1, col2 = st.columns([3,1])
-                chk_temp2 = col2.checkbox("Allow to refresh", key="chk_mass2")
-                if chk_temp2 and btn_runsimulation:
-                    st.session_state["mvi2"] = [
+                col1, col2 = st.columns([2,1])
+                chk_pi2 = col2.checkbox(td[lang_selected][14], key="chk_pi2")
+                if chk_pi2 and btn_runsimulation:
+                    st.session_state["pi2"] = [
                         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-                st.bokeh_chart(makePlotPI(st.session_state["mvi2"]))
-                col1.write("Saved state: T = {0:.0f} K, σ = {2:.2f}⋅ 10⁻⁶ S/m, d = {3:.2f} µm, jₘ = {4:.2f} mA/cm²".format(*st.session_state["mvi2"]))
-
+                st.bokeh_chart(plt_pi2.makePlotPI(st.session_state["pi2"]))
+                col1.markdown(plt_statetitle("pi2"), unsafe_allow_html=True)
+                
                 
                 st.markdown('''    
 
@@ -1956,7 +1954,7 @@ if tab_selected == works[4] and lang_selected == langs[0]:
 
 if tab_selected == works[4] and lang_selected == langs[1]:
 
-    cflag = True 
+    cflag = False 
 
     if cflag:
         st.markdown('''
