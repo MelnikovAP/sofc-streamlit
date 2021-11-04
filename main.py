@@ -1104,58 +1104,65 @@ if tab_selected == works[1] and lang_selected == langs[1]:
         ''')
     else:
 
+
         with st.container():
-            st.header(
-                "Effect of temperature on the performance of fuel cell")
+            st.header("Effect of temperature on the performance of fuel cell")
             st.markdown('''
-            <div style="text-align: justify;">
+            <div style="text-align: justify;">              
             The ideal performance of a fuel cell depends on the electrochemical reactions that occur with different fuels and oxygen.
-            Standard-state reversible fuel cell voltages (E₀ values) are only useful under standard-state conditions (room temperature, atmospheric pressure, unit activities of all species).
+            Standard-state reversible fuel cell voltages (E<sub>0</sub> values) are only useful under standard-state conditions (room temperature, atmospheric pressure, unit activities of all species).
             Fuel cells are frequently operated under conditions that vary greatly from the standard state. For example, high-temperature fuel cells operate at 700–1000°C,
             automotive fuel cells often operate under 3–5 atm of pressure, and almost all fuel cells cope with variations in the concentration (and therefore activity) of reactant species.
             In the following sections, we systematically define how reversible fuel cell voltages are affected by departures from the standard state.
-            First, the influence of temperature on the reversible fuel cell voltage will be explored, then the influence of pressure.
+            First, the influence of temperature on the reversible fuel cell voltage will be explored, then the influence of pressure.           
             <p></p></div>
             ''', unsafe_allow_html=True)
 
 
-
-            with st.container():
+        
+            with st.container():  
                 
                 st.markdown('''
-                To understand how the reversible voltage varies with temperature, lets look at the differential expression for the Gibbs free energy $G$ - one of
+                To understand how the reversible voltage varies with temperature, lets look at the differential expression for the Gibbs free energy (G) - one of
                 the most important themodynamic relation for chemical reactions in the fuel cell:
                 ''')
+
+
 
                 st.latex(r'''
                 \tag{1} dG = −SdT + Vdp
                 ''')
 
-                st.markdown('''
-                where $S$ is entropy, $T$, $V$ and $p$ are thermodynamic parameters.  
+                st.markdown(''' 
+                <div style="text-align: justify;">
+                <p>     
+                where S is entropy, T, V and p - are thermodynamic parameters (temperature, volume and pressure).  
+                </p>
+                <p>
+                From the equation (1), it is possible to find the relation between molar reaction quantities g and s:
+                </p></div>
+                ''', unsafe_allow_html=True)
 
-                From this equation, we find the relation between molar reaction quantities $\Delta g$  and $\Delta s$:
+                st.latex(r'''
+                \tag{2} \left(\frac{d (\Delta g)}{dT}
+                \right)_p = −\Delta s
                 ''')
 
-                st.latex('''
-                (d (\Delta g)/dT)_p = −\Delta s
-                ''')
-
                 st.markdown('''
-                The Gibbs free energy $\Delta g$ is related to the cell voltage $E$, Faraday constant $F$  
-                and the number of moles of transferred electrons $n$ by the equation:
+                The Gibbs free energy Δg is related to the cell voltage E, Faraday constant F 
+                and the number of moles of transferred electrons n by the equation:
                 ''')
 
                 st.latex(r'''
-                \tag{2} \Delta g = -nFE
+                \tag{3} \Delta g = -nFE
                 ''')   
 
                 st.markdown('''
-                When we combine all previous expressions we can find how a fuel cell voltage $E$ varies as a function of temperature:
+                When we combine the previous expressions (2) and (3) we can find how a fuel cell voltage E varies as a function of temperature:
                 ''')         
 
                 st.latex(r'''
-                (dE/dT)_p = \frac{\Delta s}{nF}
+                \tag{4} \left(\frac{dE}{dT}\right)_p = \frac{\Delta s}{nF}
                 ''')   
 
 
@@ -1164,13 +1171,14 @@ if tab_selected == works[1] and lang_selected == langs[1]:
                 ''')
 
                 st.latex(r'''
-                \tag{3} E_T=E_0+ nF \cdot \Delta s \cdot (T−T_0) 
+                \tag{5} E_T=E_0+ nF \cdot \Delta s \cdot (T−T_0) 
                 ''')   
 
+
                 st.markdown('''
-                where  $E_T$ is the reversible cell voltage at an arbitrary temperature $T$ and constant pressure. 
-                Generally, we assume $\Delta s$ to be independent of temperature. 
-                If a more accurate value of $E_T$ is required, it may be calculated by integrating the heat-capacity-related temperaturedependence of $\Delta s$.
+                where E<sub>T</sub> – is the reversible cell voltage at an arbitrary temperature T and constant pressure.
+                Generally, we assume Δs to be independent of temperature. If a more accurate value of E<sub>T</sub> is required, it may be 
+                calculated by integrating the heat-capacity-related temperaturedependence of Δs.
                 ''', unsafe_allow_html=True)
 
                 st.markdown('''
@@ -1185,7 +1193,7 @@ if tab_selected == works[1] and lang_selected == langs[1]:
                 st.markdown('''
                 * Using the sliders at the `Model parameters` panel change cell temperature to 900 K. 
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+                * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
                 ''')
 
 
@@ -1202,9 +1210,9 @@ if tab_selected == works[1] and lang_selected == langs[1]:
 
 
                 st.markdown('''
-                * Using the sliders at the `Model parameters` panel change cell temperature to 1100 K. 
+                * Using the sliders at the `Model parameters` panel change cell temperature to 1050 K. 
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+                * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
                 ''')
 
 
@@ -1217,44 +1225,49 @@ if tab_selected == works[1] and lang_selected == langs[1]:
                 st.bokeh_chart(plt_vi2.makePlotVI(st.session_state["vi2"]))
                 col1.markdown(plt_statetitle("vi2"), unsafe_allow_html=True)
 
-                st.markdown(task_subtitle("Results analisys"), unsafe_allow_html=True)
+                st.markdown(task_subtitle("Results analysis"), unsafe_allow_html=True)
 
 
-                st.markdown('''
-                Compare the obtained Voltage-Current curves  and answer the questions:
-                
-                * How the fuel cell voltage $V$ reacts on temperature changing?
-                * Does it follow from the above linear expression (3)? 
+                st.markdown(r'''
+                Compare the obtained Voltage-Current curves and answer the questions:
+                <ol class="rectangle-list">
+                <li>How does the fuel cell voltage V change with temperature T?</li>
+                <li>How do the obtained results match with expression (5)?</li>
+                </ol>
+                ''', unsafe_allow_html=True)
 
-                ''')
+
             with st.container():
+
+                st.header("Influence of pressure on fuel cell performance")
+
                 st.markdown('''
-                    Like temperature effects, the pressure effects on cell voltage may also be calculated starting from the
-                    differential expression for the Gibbs free energy (1) and its electrochemical definition (2): 
-                    ''')
+                Like temperature effects, the pressure effects on cell voltage may also be calculated starting from the
+                differential expression for the Gibbs free energy (1) and its electrochemical definition (3): 
+                ''', unsafe_allow_html=True)
 
                 st.latex(r'''
-                    (d G/dp)_T = \Delta V \Rightarrow \left(\frac{d (\Delta g)}{dp}\right)_T = \Delta v 
-                    ''')
+                \left(\frac{dG}{dp}\right)_T = \Delta V \Rightarrow \left(\frac{d (\Delta g)}{dp}\right)_T = \Delta v 
+                ''')
 
                 st.markdown('''
-                    and, finally:
-                    ''')
+                and, finally:
+                ''')
 
                 st.latex(r'''
-                    \tag{4} (dE/dp)_T = -\frac{\Delta v}{nF} 
-                    ''')
+                \tag{6} \left(\frac{dE}{dp}\right)_T = -\frac{\Delta v}{nF} 
+                ''')
 
                 st.markdown('''
-                    Expression (4) means the variation of the reversible cell voltage with pressure is related to the volume change of the reaction. 
-                    If the volume change of the reaction is negative (if fewer moles of gas are generated by the reaction than consumed, for instance), 
-                    then the cell voltage will increase with increasing pressure. This is an example of *Le Chatelier’s principle*: 
-                    Increasing the pressure of the system favors the reaction direction that relieves the stress on the system.
-                    ''')
+                Expression (6) means the variation of the reversible cell voltage with pressure is related to the volume change of the reaction. 
+                If the volume change of the reaction is negative (if fewer moles of gas are generated by the reaction than consumed, for instance), 
+                then the cell voltage will increase with increasing pressure. This is an example of *Le Chatelier’s principle*: 
+                Increasing the pressure of the system favors the reaction direction that relieves the stress on the system.
+                ''')
 
                 st.markdown('''
-                    To understand how the fuel cell  works at non-ambient pressure, complete the following tasks:
-                    ''')
+                To understand how the fuel cell  works at non-ambient pressure, complete the following tasks:
+                ''')
 
 
                 st.markdown(task_title("Task 1.2","Normal and high pressures"), unsafe_allow_html=True)
@@ -1264,7 +1277,7 @@ if tab_selected == works[1] and lang_selected == langs[1]:
                 st.markdown('''
                 * Using the sliders at the `Model parameters` panel change acting pressure value to 1.1 atm. 
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+                * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
                 ''')
 
             
@@ -1278,9 +1291,9 @@ if tab_selected == works[1] and lang_selected == langs[1]:
         
 
                 st.markdown('''
-                * Using the sliders at the `Model parameters` panel change acting pressure value to 1.8 atm.  
+                * Using the sliders at the `Model parameters` panel change acting pressure value to 1.8 atm. 
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+                * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
                 ''')
 
             
@@ -1289,7 +1302,6 @@ if tab_selected == works[1] and lang_selected == langs[1]:
                 if chk_vi4 and btn_runsimulation:
                     st.session_state["vi4"] = [
                         temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-
                 st.bokeh_chart(plt_vi4.makePlotVI(st.session_state["vi4"]))
                 col1.markdown(plt_statetitle("vi4"), unsafe_allow_html=True)
 
@@ -1297,15 +1309,18 @@ if tab_selected == works[1] and lang_selected == langs[1]:
 
 
 
-                st.markdown(task_subtitle("Анализ результатов"), unsafe_allow_html=True)
+                st.markdown(task_subtitle("Results analysis"), unsafe_allow_html=True)
 
-                st.markdown('''
+                st.markdown(r'''
                 Compare the obtained Voltage-Current curves and answer the questions:
-                
-                * How the fuel cell voltage $V$ reacts on the pressure changing?
-                * Does it follow from the above linear expression (4)? 
+                <ol class="rectangle-list">
+                <li>How the fuel cell voltage V reacts on the pressure changing?</li>
+                <li>Does V(p) follows th Le Chatelier's principle?</li>
+                </ol>
+                ''', unsafe_allow_html=True)
 
-                ''')
+
+
 
 
 if tab_selected == works[2] and lang_selected == langs[0]:
