@@ -128,7 +128,8 @@ works = td[lang_selected][0]
 
 st.sidebar.header(td[lang_selected][1])
 
-tab_selected = st.sidebar.selectbox(td[lang_selected][2], works)
+tab_selected = st.sidebar.selectbox(td[lang_selected][2], works, index=(st.session_state["work"] if "work" in st.session_state else 0))
+
 
 
 _temperature, _pressure, _sigma, _ethick, _jm, _H2ac, _H2Oac, _O2cc = 970, 1.1, 2.0, 50, 80, 0.95, 0.05, 0.95
@@ -885,6 +886,7 @@ plt_pi2 = PI("pi2")
 
 if tab_selected == works[1] and lang_selected == langs[0]:
 
+    st.session_state["work"] = 1
 
     with st.container():
         st.header("Влияние температуры на характеристики топливного элемента")
@@ -1092,6 +1094,8 @@ if tab_selected == works[1] and lang_selected == langs[0]:
 
 if tab_selected == works[1] and lang_selected == langs[1]:
 
+    st.session_state["work"] = 1
+
     cflag = False
 
     if cflag:
@@ -1179,7 +1183,7 @@ if tab_selected == works[1] and lang_selected == langs[1]:
                 st.markdown(task_subtitle("Simulations"), unsafe_allow_html=True)
 
                 st.markdown('''
-                * Using the sidebars at the `Model parameters` panel change cell temperature to 900 K. 
+                * Using the sliders at the `Model parameters` panel change cell temperature to 900 K. 
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
                 * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
                 ''')
@@ -1198,7 +1202,7 @@ if tab_selected == works[1] and lang_selected == langs[1]:
 
 
                 st.markdown('''
-                * Using the sidebars at the `Model parameters` panel change cell temperature to 1100 K. 
+                * Using the sliders at the `Model parameters` panel change cell temperature to 1100 K. 
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
                 * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
                 ''')
@@ -1258,7 +1262,7 @@ if tab_selected == works[1] and lang_selected == langs[1]:
                 st.markdown(task_subtitle("Simulations"), unsafe_allow_html=True)
 
                 st.markdown('''
-                * Using the sidebars at the `Model parameters` panel change acting pressure value to 1.1 atm. 
+                * Using the sliders at the `Model parameters` panel change acting pressure value to 1.1 atm. 
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
                 * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
                 ''')
@@ -1274,7 +1278,7 @@ if tab_selected == works[1] and lang_selected == langs[1]:
         
 
                 st.markdown('''
-                * Using the sidebars at the `Model parameters` panel change acting pressure value to 1.8 atm.  
+                * Using the sliders at the `Model parameters` panel change acting pressure value to 1.8 atm.  
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
                 * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
                 ''')
@@ -1306,6 +1310,7 @@ if tab_selected == works[1] and lang_selected == langs[1]:
 
 if tab_selected == works[2] and lang_selected == langs[0]:
 
+    st.session_state["work"] = 2
 
     with st.container():
         st.header("Проводимость компонентов и ее влияние на работу ТОТЭ")
@@ -1460,6 +1465,8 @@ if tab_selected == works[2] and lang_selected == langs[0]:
 
 if tab_selected == works[2] and lang_selected == langs[1]:
 
+    st.session_state["work"] = 2
+
     cflag = False 
 
     if cflag:
@@ -1469,76 +1476,64 @@ if tab_selected == works[2] and lang_selected == langs[1]:
     else:
 
         with st.container():
-
             st.header("Ohmic losses")
-
             st.markdown(r'''
-            Ohmic losses ($E_{\text{Ohm}}$) in an SOFC result from ionic conductivity through the electrolyte and electrical resistance 
+            Ohmic losses (E<sub>Ohm</sub>) in an SOFC result from ionic conductivity through the electrolyte and electrical resistance 
             offered to the flow of electrons in the external electrical circuit. This is inherently a materials property 
             of the crystal structure and atoms involved. However, to maximize the ionic conductivity, several methods 
             can be done. Firstly, operating at higher temperatures can significantly decrease these ohmic losses. 
             Substitutional doping methods to further refine the crystal structure and control defect concentrations 
             can also play a significant role in increasing the conductivity. Another way to decrease ohmic resistance 
             is to decrease the thickness of the electrolyte layer.
+            ''', unsafe_allow_html=True)
 
+            st.markdown(r'''
             An ionic specific resistance of the electrolyte as a function of temperature can be described by the following relationship:
             ''')
 
-            st.markdown(r'''
-            The general expression for theohmic loss is given by Ohm’s law in a finite form:
+            st.latex(r'''
+            \tag{1} E_{\text{Ohm}}=R_{\text{Ohm}} \cdot I
             ''')
 
-            st.latex(r''' E_{\text{Ohm}}=R_{\text{Ohm}} \cdot I''')
-
             st.markdown(r'''
-            where the resistance $R_{\text{Ohm}}$ depended from internal parameters of fuel cell materials as a current conductor, specsificaly $\sigma$ (average area conductivity) and
-            $d$ (elrolyte thickness).
+            where R<sub>Ohm</sub> depended from internal parameters of fuel cell materials, specsificaly σ (average area conductivity) and
+            d (elrolyte thickness):
+            ''', unsafe_allow_html=True)
+
+            st.latex(r'''
+            \tag{2} R_{\text{Ohm}} =\frac{\delta}{\sigma}
             ''')
-
-
-            st.markdown(r'''
-            In order to find out how $E_{\text{Ohm}}$  and $R_{\text{Ohm}}$ depends on $\sigma$ and  $\delta$ complete the following tasks:
-            ''')
-
-
-            st.latex(r''' r_1=\frac{\delta}{\sigma}''')
 
             st.markdown('''
-            where:  
-            >$\delta$ - electrolyte thickness  
-            >$\sigma$ - ionic conductivity  
-
             The ionic conductivity of the solid oxide is defined as follows:
             ''')
 
-
-            st.latex(r''' \sigma = \sigma_0 \cdot e^{\frac{-E}{R \cdot T}}''')
+            st.latex(r'''
+            \tag{3} \sigma = \sigma_0 \cdot e^{-A/RT}
+            ''')
 
             st.markdown('''
-            where:  
-            >$\sigma_{0}$ and $E$ – factors depended on electrolyte materials  
-            >$T$ – electrolyte temperature  
-            >$R$ – ideal gas constant  
-            ''')
+            where σ<sub>0</sub> and A is material dependent parameters, T is working temperature, R is gas constant. 
+            ''', unsafe_allow_html=True)
 
 
             st.markdown('''
-            Complete the following tasks: 
+            Complete the following tasks:
             ''')
 
+            with st.container():
 
-            with st.expander("Task 1"):
+                st.markdown(task_title("Task 2.1","Electrolyte conductivity and its role in Ohmic losses"), unsafe_allow_html=True)
 
-                st.subheader("1. Electrolyte conductivity and its role in Ohmic losses")
+                st.markdown(task_subtitle("Simulation"), unsafe_allow_html=True)
+
                 st.markdown(r'''
-                * Using the sidebars at the `Model parameters` panel set parameter $\sigma$ to 2.5 S/m. 
+                * Using the slides at the `Model parameters` panel set parameter σ to 0.2 S/m.
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
-
-                ---
-
+                * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
                 ''')
 
+                
                 col1, col2 = st.columns([2,1])
                 chk_vi5 = col2.checkbox(td[lang_selected][14], key="chk_vi5")
                 if chk_vi5 and btn_runsimulation:
@@ -1547,16 +1542,14 @@ if tab_selected == works[2] and lang_selected == langs[1]:
                 st.bokeh_chart(plt_vi5.makePlotVI(st.session_state["vi5"]))
                 col1.markdown(plt_statetitle("vi5"), unsafe_allow_html=True)
 
+
+
                 st.markdown('''
-                * Using the sidebars at the `Model parameters` panel set parameter $\sigma$  to 0.2 S/m. 
+                * Using the slides at the `Model parameters` panel set parameter σ to 2.5 S/m.
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
-
-                ---
-
+                * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
                 ''')
 
-                
                 col1, col2 = st.columns([2,1])
                 chk_vi6 = col2.checkbox(td[lang_selected][14], key="chk_vi6")
                 if chk_vi6 and btn_runsimulation:
@@ -1565,50 +1558,35 @@ if tab_selected == works[2] and lang_selected == langs[1]:
                 st.bokeh_chart(plt_vi6.makePlotVI(st.session_state["vi6"]))
                 col1.markdown(plt_statetitle("vi6"), unsafe_allow_html=True)
 
-                st.markdown('''    
 
-                ---
+                st.markdown(task_subtitle("Result analysis"), unsafe_allow_html=True)
 
-                ''')
+            
 
-
-
-                st.subheader("2. Results analysis")
-
-                st.markdown('''
-                Compare the obtained Voltage-Current curves  and answer the questions:
-                 
-                * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
-
-                ''')
-
-            with st.expander("Task 2"):
-
-                st.subheader("1. Electrolyte thickness and its role in  Ohmic losses")
                 st.markdown(r'''
-                * Using the sidebars at the `Model parameters` panel set parameter $d$ to 30 µm. 
+                Compare the obtained Voltage-Current curves  and answer the questions:
+                <ol class="rectangle-list">
+                <li>How does an increase in conductivity affect the efficiency of a fuel cell? </li>
+                <li>In which range of currents the V (I) curve changes significantly with σ?</li>
+                </ol>
+                ''', unsafe_allow_html=True)
+
+
+
+            with st.container(): 
+
+                st.markdown('''<p></p>''', unsafe_allow_html=True)
+
+                st.markdown(task_title("Task 2.2","Electrolyte thickness and its role in  Ohmic losses"), unsafe_allow_html=True)
+
+                st.markdown(task_subtitle("Simulation"), unsafe_allow_html=True)
+
+                st.markdown(r'''
+                * Using the slides at the `Model parameters` panel set parameter d to 30 µm.
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
-
-                ---
-
+                * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
                 ''')
-
-                st.markdown(
-                    '''
-                    <style>
-                    .reportview-container {
-                        background: url("url_goes_here")
-                    }
-                    .sidebar .sidebar-content {
-                        background: url("url_goes_here")
-                    }
-                    </style>
-                    ''',
-                    unsafe_allow_html=True
-                )
-
+        
                 col1, col2 = st.columns([2,1])
                 chk_vi7 = col2.checkbox(td[lang_selected][14], key="chk_vi7")
                 if chk_vi7 and btn_runsimulation:
@@ -1617,23 +1595,15 @@ if tab_selected == works[2] and lang_selected == langs[1]:
                 st.bokeh_chart(plt_vi7.makePlotVI(st.session_state["vi7"]))
                 col1.markdown(plt_statetitle("vi7"), unsafe_allow_html=True)
 
-                st.markdown('''    
 
-                ---
-
-                ''')
 
 
                 st.markdown(r'''
-                * Using the sidebars at the `Model parameters` panel set parameter  $d$ to 30 µm.
+                * Using the slides at the `Model parameters` panel set parameter d to 150 µm.
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
-
-                ---
-
+                * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
                 ''')
 
-                
                 col1, col2 = st.columns([2,1])
                 chk_vi8 = col2.checkbox(td[lang_selected][14], key="chk_vi8")
                 if chk_vi8 and btn_runsimulation:
@@ -1642,26 +1612,22 @@ if tab_selected == works[2] and lang_selected == langs[1]:
                 st.bokeh_chart(plt_vi8.makePlotVI(st.session_state["vi8"]))
                 col1.markdown(plt_statetitle("vi8"), unsafe_allow_html=True)
 
-                st.markdown('''    
-
-                ---
-
-                ''')
 
 
+                st.markdown(task_subtitle("Result analysis"), unsafe_allow_html=True)
+                st.markdown(r'''
+                Compare the resulting graphs and answer the following questions: 
+                <ol class="rectangle-list">
+                <li>How does an increase in electrolyte thickness affect the efficiency of a fuel cell?</li>
+                <li>What is the relationship between d and σ [when V value is fixed]?</li>
+                </ol>
+                ''', unsafe_allow_html=True)
 
-                st.subheader("2. Results analysis")
-
-                st.markdown('''
-                Compare the obtained Voltage-Current curves  and answer the questions:
-                 
-                * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
-
-                ''')
 
 
 if tab_selected == works[3] and lang_selected == langs[0]:
+
+    st.session_state["work"] = 3
 
     with st.container():
 
@@ -1750,6 +1716,8 @@ if tab_selected == works[3] and lang_selected == langs[0]:
 
 if tab_selected == works[3] and lang_selected == langs[1]:
 
+    st.session_state["work"] = 3
+
     cflag = False 
 
     if cflag:
@@ -1758,33 +1726,36 @@ if tab_selected == works[3] and lang_selected == langs[1]:
         ''')
     else:
 
-
         with st.container():
 
             st.header("Mass transport losses")
- 
+    
             st.markdown('''
-            <div style="text-align: justify;">        
-                  To produce electricity, a fuel cell must be continually supplied with fuel and oxidant. 
+            <div style="text-align: justify;">
+            <p>     
+            To produce electricity, a fuel cell must be continually supplied with fuel and oxidant. 
             At the same time, products must be continuously removed so as to avoid “strangling” the cell. 
             The process of supplying reactants and removing products is termed fuel cell mass transport. 
             As you will learn, this seemingly simple task can turn out to be quite complicated.
+            </p>
 
+            <p> 
             Why are we so interested in fuel cell mass transport? The answer is because poor mass transport leads to significant fuel cell performance losses. 
             To understand why poor mass transport can lead to a performance loss, remember that fuel cell performance 
             is determined by the reactant and product concentrations within the catalyst layer, not at the fuel cell inlet. 
             Thus, reactant depletion (or product accumulation) within the catalyst layer will adversely affect performance. 
-            This loss in performance is called a fuel cell *concentration* loss.
-
-            Concentration polarization losses are sometimes expressed as a function of the limiting current, $j_m$,
+            This loss in performance is called a fuel cell  <i>concentration</i> (E<sub>con</sub>) loss.
+            </p>
+            <p>
+            Concentration polarization losses are sometimes expressed as a function of the limiting current, <sub>m</sub>,,
             which is usually taken as a measure of the maximum rate atwhich a reactant can be supplied to an electrode:
+            </p>
             </div>
             ''', unsafe_allow_html=True)
 
-            st.latex(
-                r'''
-                E_{con} = \frac{RT}{2F}\cdot\ln\left(\frac{j_m}{j_m-j}\right)
-                '''
+            st.latex(r'''
+            \tag{1} E_{\text{con}} = \frac{RT}{2F}\cdot\ln\left(\frac{j_m}{j_m-j}\right)
+            '''
             )
 
 
@@ -1795,68 +1766,59 @@ if tab_selected == works[3] and lang_selected == langs[1]:
             ''', unsafe_allow_html=True)
 
 
-            with st.expander("Task 1"):
+        with st.container():
 
-                st.subheader("1. Test a low and high limiting current")
 
-                st.markdown('''
-                * Using the sidebars at the `Model parameters` panel change cell temperature to 750 K. 
-                * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+            st.markdown(task_title("Task 3.1","Influence of j<sub>m</sub> on SOFC performance"), unsafe_allow_html=True)
 
-                ---
+            st.markdown(task_subtitle("Sumulation"), unsafe_allow_html=True)
 
-                ''')
-
-                col1, col2 = st.columns([2,1])
-                chk_pi1 = col2.checkbox(td[lang_selected][14], key="chk_pi1")
-                if chk_pi1 and btn_runsimulation:
-                    st.session_state["pi1"] = [
-                        temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-                st.bokeh_chart(plt_pi1.makePlotPI(st.session_state["pi1"]))
-                col1.markdown(plt_statetitle("pi1"), unsafe_allow_html=True)
-
-                st.markdown('''    
-
-                ---
-
-                ''')
-
-                st.markdown('''
-                * Using the sidebars at the `Model parameters` panel change cell temperature to 750 K. 
-                * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
-
-                ---
-
-                ''')
-
-                col1, col2 = st.columns([2,1])
-                chk_pi2 = col2.checkbox(td[lang_selected][14], key="chk_pi2")
-                if chk_pi2 and btn_runsimulation:
-                    st.session_state["pi2"] = [
-                        temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
-                st.bokeh_chart(plt_pi2.makePlotPI(st.session_state["pi2"]))
-                col1.markdown(plt_statetitle("pi2"), unsafe_allow_html=True)
-                
-                
-                st.markdown('''    
-
-                ---
-
-                ''')
+        
+            st.markdown('''
+            * Using the  `Model parameters` on the sidebar set limit current to 60 mA/cm².
+            * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
+            * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
+            ''')
 
 
 
-                st.subheader("2. Results analysis")
+            col1, col2 = st.columns([2,1])
+            chk_pi1 = col2.checkbox(td[lang_selected][14], key="chk_pi1")
+            if chk_pi1 and btn_runsimulation:
+                st.session_state["pi1"] = [
+                    temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
+            st.bokeh_chart(plt_pi1.makePlotPI(st.session_state["pi1"]))
+            col1.markdown(plt_statetitle("pi1"), unsafe_allow_html=True)
 
-                st.markdown('''
-                Compare the obtained Voltage-Current curves  and answer the questions:
-                 
-                * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
+        with st.container():
 
-                ''')
+            st.markdown('''
+            * Using the  `Model parameters` on the sidebar set limit current to 100 mA/cm².
+            * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
+            * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
+            ''')
+
+            col1, col2 = st.columns([2,1])
+            chk_pi2 = col2.checkbox(td[lang_selected][14], key="chk_pi2")
+            if chk_pi2 and btn_runsimulation:
+                st.session_state["pi2"] = [
+                    temperature, pressure, sigma, ethick, jm, H2ac, H2Oac, O2cc]
+            st.bokeh_chart(plt_pi2.makePlotPI(st.session_state["pi2"]))
+            col1.markdown(plt_statetitle("pi2"), unsafe_allow_html=True)
+            
+
+            st.markdown(task_subtitle("Result analysis"), unsafe_allow_html=True)
+            st.markdown(r'''
+            Compare two P(I) plots and answer the following questions
+            <ol class="rectangle-list">
+            <li>Try to explain how the variation of j<sub>m</sub> affects the SOFC efficiency?</li>
+            <li>In what range of currents does the influence of concentration losses significantly affect the operation of the element, and when can it be neglected?</li>
+            </ol>
+            ''', unsafe_allow_html=True)
+        
+
+
+
 
 
 
@@ -1898,13 +1860,15 @@ def _update_on_change_gen_adduct():
 
 if tab_selected == works[4] and lang_selected == langs[0]:
     
+    st.session_state["work"] = 4
+
     with st.container():
         st.header("Расчет характеристик батарии ТОТЭ")
         st.markdown('''
         <div style="text-align: justify;"> 
         <p>  
-        Выполнив предуыдущие работы, вы убедились, что топливный элемент - это  не что иное как преобразователь энергии,
-        который ковертирует энергию химической связи в электричество. Часто водород (H<sub>2</sub>) используется в качестве топлива и превращается в воду 
+        Выполнив предыдущие работы, вы убедились, что топливный элемент - это  не что иное, как преобразователь энергии,
+        который конвертирует энергию химической связи в электричество. Часто водород (H<sub>2</sub>) используется в качестве топлива и превращается в воду 
         (H<sub>2</sub>O) однако, существуют топливные элементы  которые могут использовать и другие топливные газы, такие как метан (CH<sub>3</sub>).        
         </p>
         <p>
@@ -1939,8 +1903,9 @@ if tab_selected == works[4] and lang_selected == langs[0]:
 
         st.markdown(task_subtitle("Работа с калькулятором"), unsafe_allow_html=True)
         st.markdown('''
-            * Используя представленный выше калькулятор, посчитайте, какое количество топлива (газа водорода) понадобится для снабжения электроэнергией двухкомнатной квартры в которой проживает семья из трех человека? Средняя потребность одного человека в электроэнергии составляет около 63 кВтч в месяц. 
-            ''')
+        * Используя представленный выше калькулятор, посчитайте, какое количество топлива (газа водорода) понадобится для снабжения электроэнергией двухкомнатной 
+        квартиры в которой проживает семья из трех человека? Средняя потребность одного человека в электроэнергии составляет около 63 кВтч в месяц. 
+        ''')
 
         st.markdown(task_subtitle("Дополнительные воросы"), unsafe_allow_html=True)
         st.markdown(r'''
@@ -1954,6 +1919,8 @@ if tab_selected == works[4] and lang_selected == langs[0]:
 
 if tab_selected == works[4] and lang_selected == langs[1]:
 
+    st.session_state["work"] = 4
+
     cflag = False 
 
     if cflag:
@@ -1961,40 +1928,60 @@ if tab_selected == works[4] and lang_selected == langs[1]:
         Under construction...
         ''')
     else:
-    
+
         with st.container():
-            st.header("Fuel Cell Calculator")
+            st.header("Calculator of SOFC power source")
             st.markdown('''
-            <div style="text-align: justify;">        
-            Calculate the energy and the amount of water a fuel cell produces when burning hydrogen. 
-            A fuel cell is an energy converter, which transforms chemical binding energy into electricity. 
-            Often hydrogen, H₂, is used as a fuel and transformed into water, H₂O. This calculator refers to the use with hydrogen. 
-            Fuel cells can also use other materials, like methane.
-            <p></p></div>
+            <div style="text-align: justify;"> 
+            <p>
+            After completing the previous work, you made sure that a fuel cell is nothing more than an energy converter that 
+            transfers the energy of a chemical bond into electricity. Often hydrogen (H<sub>2</sub>) is used as a fuel and transformed 
+            into water (H<sub>2</sub>O), however, there are fuel cells that can work with other fuel gases such as methane (CH<sub>3</sub>). 
+            </p>
+            <p>            
+            This calculator will allow you to estimate the total energy and amount of water produced by a fuel cell when burning hydrogen.  
+            </p></div>
             ''', unsafe_allow_html=True)
 
 
-            with st.expander("Task 1"):
 
-                st.markdown('''
-                    * Using the sidebars at the `Model parameters` panel change cell temperature to 750 K. 
-                    * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
-                    * Plot in figure below should update. Uncheck `Allow to refresh` flag to forbid any chages of the plot.
-                    ''')
+            # fuel_gas, eff_value, gen_power, gen_adduct = 0.0, 65.0, 0.0, 0.0
+
+            col1, col2 = st.columns([1,1]) 
+            fuel_gas = col1.number_input(td[lang_selected][20], value=np.round(st.session_state['ni_fuel_gas'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_fuel_gas", on_change=_update_on_change_fuel_gas)
+            eff_value = col2.number_input(td[lang_selected][21], value=np.round(st.session_state['ni_eff_value'],1), format="%.0f",  min_value=0.1, max_value=100.0, step=1.0, key="ni_eff_value", on_change=_update_on_change_eff_value)
+            col1, col2 = st.columns([1,1])
+            gen_power = col1.number_input(td[lang_selected][22], value=np.round(st.session_state['ni_gen_power'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_power", on_change=_update_on_change_gen_power)
+            gen_adduct = col2.number_input(td[lang_selected][23], value=np.round(st.session_state['ni_gen_adduct'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_adduct", on_change=_update_on_change_gen_adduct)
+
+
+            # st.session_state['fuel_gas'] = fuel_gas
+            # st.session_state['eff_value'] = eff_value
+            # st.session_state['gen_power'] = gen_power
+            # st.session_state['gen_adduct'] = gen_adduct
+
+
+        with st.container():
+
+            st.markdown('''<p></p>''', unsafe_allow_html=True)
+
+            st.markdown(task_title("Task 4.1","Characteristics of the SOFC power source"), unsafe_allow_html=True)
+
+            st.markdown(task_subtitle("Calculations"), unsafe_allow_html=True)
+            st.markdown('''
+            * Using the calculator above, calculate how much fuel (hydrogen gas) will you need to power a two-room apartment in which a family of three people? 
+            The average electricity requirement per person is about 63 kWh per month. 
+            ''')
+
+            st.markdown(task_subtitle("Additional questions"), unsafe_allow_html=True)
+            st.markdown(r'''
+            <ol class="rectangle-list">
+            <li>What will be the cost of a month of operation of such a power plant (the average price of 1 kg of hydrogen is 11-14 USD)?</li>
+            <li>Is it possible to estimate how much heat such a power plant will generate?</li>
+            </ol>
+            ''', unsafe_allow_html=True)
             
 
-                col1, col2 = st.columns([1,1]) 
-                fuel_gas = col1.number_input("Total consumed H₂, [kg]", value=np.round(st.session_state['ni_fuel_gas'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_fuel_gas", on_change=_update_on_change_fuel_gas)
-                eff_value = col2.number_input("Efficiency factor, [%]", value=np.round(st.session_state['ni_eff_value'],1), format="%.1f",  min_value=0.1, max_value=100.0, step=0.1, key="ni_eff_value", on_change=_update_on_change_eff_value)
-                col1, col2 = st.columns([1,1])
-                gen_power = col1.number_input("Generated power, [kWh]", value=np.round(st.session_state['ni_gen_power'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_power", on_change=_update_on_change_gen_power)
-                gen_adduct = col2.number_input("Generated H₂O, [kg]", value=np.round(st.session_state['ni_gen_adduct'],1), format="%.1f", min_value=0.0, step=0.1, key="ni_gen_adduct", on_change=_update_on_change_gen_adduct)
-
-
-                # st.session_state['fuel_gas'] = fuel_gas
-                # st.session_state['eff_value'] = eff_value
-                # st.session_state['gen_power'] = gen_power
-                # st.session_state['gen_adduct'] = gen_adduct
     
 
  
