@@ -128,9 +128,11 @@ works = td[lang_selected][0]
 
 st.sidebar.header(td[lang_selected][1])
 
-tab_selected = st.sidebar.selectbox(td[lang_selected][2], works, index=(st.session_state["work"] if "work" in st.session_state else 0))
+# tab_selected = st.sidebar.selectbox(td[lang_selected][2], works, index=(st.session_state["work"] if "work" in st.session_state else 0))
+# st.session_state["lang"] = lang_selected
+# st.session_state["work"] = works.index(tab_selected)
 
-
+tab_selected = st.sidebar.selectbox(td[lang_selected][2], works)
 
 _temperature, _pressure, _sigma, _ethick, _jm, _H2ac, _H2Oac, _O2cc = 970, 1.1, 2.0, 50, 80, 0.95, 0.05, 0.95
 
@@ -243,7 +245,7 @@ for item in works:
 
 if tab_selected == works[0] and lang_selected == "RU":
 
-    st.session_state["work"] = 0
+    # st.session_state["work"] = 0
 
     with st.container():
         st.markdown('''
@@ -472,7 +474,7 @@ if tab_selected == works[0] and lang_selected == "RU":
 
 if tab_selected == works[0] and lang_selected == "ENG":
 
-    st.session_state["work"] = 0
+    # st.session_state["work"] = 0
 
     cflag = False
 
@@ -794,7 +796,7 @@ plt_pi2 = PI("pi2")
 
 if tab_selected == works[1] and lang_selected == "RU":
 
-    st.session_state["work"] = 1
+    # st.session_state["work"] = 1
 
     with st.container():
         st.header("Влияние температуры на характеристики топливного элемента")
@@ -1002,7 +1004,7 @@ if tab_selected == works[1] and lang_selected == "RU":
 
 if tab_selected == works[1] and lang_selected == "ENG":
 
-    st.session_state["work"] = 1
+    # st.session_state["work"] = 1
 
     cflag = False
 
@@ -1233,7 +1235,7 @@ if tab_selected == works[1] and lang_selected == "ENG":
 
 if tab_selected == works[2] and lang_selected == "RU":
 
-    st.session_state["work"] = 2
+   #  st.session_state["work"] = 2
 
     with st.container():
         st.header("Проводимость компонентов и ее влияние на работу ТОТЭ")
@@ -1388,7 +1390,7 @@ if tab_selected == works[2] and lang_selected == "RU":
 
 if tab_selected == works[2] and lang_selected == "ENG":
 
-    st.session_state["work"] = 2
+    # st.session_state["work"] = 2
 
     cflag = False 
 
@@ -1550,7 +1552,7 @@ if tab_selected == works[2] and lang_selected == "ENG":
 
 if tab_selected == works[3] and lang_selected == "RU":
 
-    st.session_state["work"] = 3
+    # st.session_state["work"] = 3
 
     with st.container():
 
@@ -1639,7 +1641,7 @@ if tab_selected == works[3] and lang_selected == "RU":
 
 if tab_selected == works[3] and lang_selected == "ENG":
 
-    st.session_state["work"] = 3
+    # st.session_state["work"] = 3
 
     cflag = False 
 
@@ -1783,7 +1785,7 @@ def _update_on_change_gen_adduct():
 
 if tab_selected == works[4] and lang_selected == "RU":
     
-    st.session_state["work"] = 4
+    # st.session_state["work"] = 4
 
     with st.container():
         st.header("Расчет характеристик батарии ТОТЭ")
@@ -1842,7 +1844,7 @@ if tab_selected == works[4] and lang_selected == "RU":
 
 if tab_selected == works[4] and lang_selected == "ENG":
 
-    st.session_state["work"] = 4
+    # st.session_state["work"] = 4
 
     cflag = False 
 
