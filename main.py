@@ -1864,7 +1864,7 @@ if tab_selected == works[4] and lang_selected == "ENG":
             into water (H<sub>2</sub>O), however, there are fuel cells that can work with other fuel gases such as methane (CH<sub>3</sub>). 
             </p>
             <p>            
-            This calculator will allow you to estimate the total energy and amount of water produced by a fuel cell when burning hydrogen.  
+            This calculator will allow you to estimate the total energy and amount of water produced by a fuel cell.  
             </p></div>
             ''', unsafe_allow_html=True)
 
