@@ -1670,7 +1670,7 @@ if tab_selected == works[3] and lang_selected == "ENG":
             This loss in performance is called a fuel cell  <i>concentration</i> (E<sub>con</sub>) loss.
             </p>
             <p>
-            Concentration polarization losses are sometimes expressed as a function of the limiting current, <sub>m</sub>,,
+            Concentration polarization losses are sometimes expressed as a function of the limiting current, j<sub>m</sub>,,
             which is usually taken as a measure of the maximum rate atwhich a reactant can be supplied to an electrode:
             </p>
             </div>
