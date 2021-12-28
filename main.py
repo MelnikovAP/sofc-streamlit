@@ -134,7 +134,7 @@ st.sidebar.header(td[lang_selected][1])
 
 tab_selected = st.sidebar.selectbox(td[lang_selected][2], works)
 
-_temperature, _pressure, _sigma, _ethick, _jm, _H2ac, _H2Oac, _O2cc = 970, 1.1, 2.0, 50, 80, 0.95, 0.05, 0.95
+_temperature, _pressure, _sigma, _ethick, _jm, _H2ac, _H2Oac, _O2cc = 800, 1.1, 2.0, 50, 80, 0.95, 0.05, 0.95
 
 
 
@@ -144,7 +144,7 @@ if tab_selected in works[1:4]:
     temperature = st.sidebar.slider(
         #'T [temperature], '+u'\N{DEGREE SIGN}'+'K',
         'T [' + td[lang_selected][4] + '], K',
-        700, 1200, _temperature, step=10, key="sld_temperature",
+        600, 1000, _temperature, step=10, key="sld_temperature",
     )
 
     pressure = st.sidebar.slider(
@@ -871,7 +871,7 @@ if tab_selected == works[1] and lang_selected == "RU":
             st.markdown(task_subtitle("Работа с моделью"), unsafe_allow_html=True)
 
             st.markdown('''
-            * На боковой панели  `Параметры модели` установите температуру T на 900 К.
+            * На боковой панели  `Параметры модели` установите температуру T на 700 К.
             * Установите флажок `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
             * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
             ''')
@@ -890,7 +890,7 @@ if tab_selected == works[1] and lang_selected == "RU":
 
 
             st.markdown('''
-            * На боковой панели  `Параметры модели` установите температуру T на 1050 К.
+            * На боковой панели  `Параметры модели` установите температуру T на 900 К.
             * Установите флажок `Обновлять график` над графиком ниже и нажмите на кнопку `Запуск симуляции` внизу боковой панели.
             * График обновится. Снимите флажок с функции `Обновлять график`, чтобы зафиксировать полученные результаты.
             ''')
@@ -1101,7 +1101,7 @@ if tab_selected == works[1] and lang_selected == "ENG":
                 st.markdown(task_subtitle("Simulations"), unsafe_allow_html=True)
 
                 st.markdown('''
-                * Using the sliders at the `Model parameters` panel change cell temperature to 900 K. 
+                * Using the sliders at the `Model parameters` panel change cell temperature to 700 K. 
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
                 * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
                 ''')
@@ -1120,7 +1120,7 @@ if tab_selected == works[1] and lang_selected == "ENG":
 
 
                 st.markdown('''
-                * Using the sliders at the `Model parameters` panel change cell temperature to 1050 K. 
+                * Using the sliders at the `Model parameters` panel change cell temperature to 900 K. 
                 * Check `Allow to refresh` flag and press `Run simulation` button under the panel.
                 * Plot in figure below should update. Uncheck `Allow to refresh` flag to freeze any chages on the plot.
                 ''')
